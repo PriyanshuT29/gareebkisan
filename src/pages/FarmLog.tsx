@@ -4,8 +4,10 @@ import { ClipboardList, Plus, Calendar as CalendarIcon } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { mockFarmLogs } from "../data/mockData"
+import { useTranslation } from "react-i18next"
 
 export function FarmLog() {
+  const { t } = useTranslation()
   const [logs] = useState(mockFarmLogs)
 
   const totalCost = logs.reduce((acc, log) => acc + log.cost, 0)
@@ -19,19 +21,19 @@ export function FarmLog() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold">Farm Log</h1>
+          <h1 className="text-3xl font-bold">{t('farmLog.title')}</h1>
           <p className="text-muted-foreground">Track your daily farming activities and expenses</p>
         </div>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add Entry
+          {t('farmLog.addLog')}
         </Button>
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="md:col-span-2">
           <CardHeader>
-            <CardTitle>Recent Activities</CardTitle>
+            <CardTitle>{t('dashboard.recentActivities')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -68,7 +70,7 @@ export function FarmLog() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Financial Overview</CardTitle>
+            <CardTitle>{t('dashboard.overview')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="rounded-xl bg-primary/5 p-4 text-center">

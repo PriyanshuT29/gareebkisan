@@ -6,8 +6,10 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
+import { useTranslation } from "react-i18next"
 
 export function Auth() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
@@ -91,14 +93,14 @@ export function Auth() {
 
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
+              <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <Card className="border-0 shadow-lg">
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-center">{t('dashboard.welcome')}</CardTitle>
                   <CardDescription className="text-center">
                     Enter your credentials to access your farm dashboard
                   </CardDescription>
@@ -107,7 +109,7 @@ export function Auth() {
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="email">
-                        Email or Phone
+                        {t('auth.email')}
                       </label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -117,10 +119,10 @@ export function Auth() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="password">
-                          Password
+                          {t('auth.password')}
                         </label>
                         <a href="#" className="text-xs text-primary hover:underline">
-                          Forgot password?
+                          {t('auth.forgotPassword')}
                         </a>
                       </div>
                       <div className="relative">
@@ -134,11 +136,11 @@ export function Auth() {
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Logging in...
+                          {t('common.loading')}
                         </>
                       ) : (
                         <>
-                          Login <ArrowRight className="ml-2 h-4 w-4" />
+                          {t('auth.login')} <ArrowRight className="ml-2 h-4 w-4" />
                         </>
                       )}
                     </Button>
@@ -174,7 +176,7 @@ export function Auth() {
             <TabsContent value="signup">
               <Card className="border shadow-xl">
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-center">{t('auth.register')}</CardTitle>
                   <CardDescription className="text-center">
                     Start your journey towards smarter farming today
                   </CardDescription>
@@ -183,7 +185,7 @@ export function Auth() {
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="name">
-                        Full Name
+                        {t('auth.name')}
                       </label>
                       <div className="relative">
                         <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -192,7 +194,7 @@ export function Auth() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="signup-email">
-                        Email or Phone
+                        {t('auth.email')}
                       </label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -201,7 +203,7 @@ export function Auth() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="signup-password">
-                        Password
+                        {t('auth.password')}
                       </label>
                       <div className="relative">
                         <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />

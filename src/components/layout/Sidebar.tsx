@@ -15,19 +15,7 @@ import {
 } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Button } from "../ui/button"
-
-const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: Sprout, label: "Crop Advisory", path: "/dashboard/crop-advisory" },
-  { icon: CloudRain, label: "Weather Alerts", path: "/dashboard/weather-alerts" },
-  { icon: TrendingUp, label: "Mandi Prices", path: "/dashboard/mandi-prices" },
-  { icon: Calculator, label: "Simulator", path: "/dashboard/simulator" },
-  { icon: Users, label: "Community", path: "/dashboard/community" },
-  { icon: ShoppingBag, label: "Marketplace", path: "/dashboard/marketplace" },
-  { icon: FileText, label: "Schemes", path: "/dashboard/schemes" },
-  { icon: ClipboardList, label: "Farm Log", path: "/dashboard/farm-log" },
-  { icon: Settings, label: "Settings", path: "/dashboard/settings" },
-]
+import { useTranslation } from "react-i18next"
 
 interface SidebarProps {
   isMobileOpen?: boolean
@@ -36,6 +24,20 @@ interface SidebarProps {
 
 export function Sidebar({ isMobileOpen = false, onClose }: SidebarProps) {
   const location = useLocation()
+  const { t } = useTranslation()
+
+  const menuItems = [
+    { icon: LayoutDashboard, label: t('nav.dashboard'), path: "/dashboard" },
+    { icon: Sprout, label: "Crop Advisory", path: "/dashboard/crop-advisory" },
+    { icon: CloudRain, label: t('nav.weather'), path: "/dashboard/weather-alerts" },
+    { icon: TrendingUp, label: "Mandi Prices", path: "/dashboard/mandi-prices" },
+    { icon: Calculator, label: "Simulator", path: "/dashboard/simulator" },
+    { icon: Users, label: t('nav.community'), path: "/dashboard/community" },
+    { icon: ShoppingBag, label: t('nav.marketplace'), path: "/dashboard/marketplace" },
+    { icon: FileText, label: t('nav.schemes'), path: "/dashboard/schemes" },
+    { icon: ClipboardList, label: t('nav.farmLog'), path: "/dashboard/farm-log" },
+    { icon: Settings, label: t('nav.settings'), path: "/dashboard/settings" },
+  ]
 
   return (
     <>
@@ -62,16 +64,16 @@ export function Sidebar({ isMobileOpen = false, onClose }: SidebarProps) {
         {/* Desktop Logo */}
         <div className="hidden lg:flex h-16 items-center border-b px-4">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="KrishiBandhu" className="h-12 w-12 rounded-lg object-contain" />
-            <span className="font-bold text-xl bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">KrishiBandhu</span>
+            <img src="/logo.png" alt={t('app.name')} className="h-12 w-12 rounded-lg object-contain" />
+            <span className="font-bold text-xl bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">{t('app.name')}</span>
           </div>
         </div>
         
         {/* Mobile Header */}
         <div className="flex h-16 items-center justify-between border-b px-4 lg:hidden">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="KrishiBandhu" className="h-8 w-8 rounded-lg object-contain" />
-            <span className="font-bold text-lg">KrishiBandhu</span>
+            <img src="/logo.png" alt={t('app.name')} className="h-8 w-8 rounded-lg object-contain" />
+            <span className="font-bold text-lg">{t('app.name')}</span>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />

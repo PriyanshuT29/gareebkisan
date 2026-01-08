@@ -7,8 +7,10 @@ import { CircularProgress } from "../components/ui/circular-progress"
 import { mockFarmer, mockWeatherAlerts } from "../data/mockData"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip"
 import { getForecastByCity } from "../services/weatherService"
+import { useTranslation } from "react-i18next"
 
 export function Dashboard() {
+  const { t } = useTranslation()
   const profitScore = 78
   const priceTrend = "up" as "up" | "down" | "stable"
   const [weatherRisk, setWeatherRisk] = useState<"low" | "medium" | "high">("medium")
@@ -47,7 +49,7 @@ export function Dashboard() {
         <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
           <CardHeader>
             <CardTitle className="text-3xl">
-              Welcome back, {mockFarmer.name}! 👋
+              {t('dashboard.welcome')}, {mockFarmer.name}! 👋
             </CardTitle>
             <CardDescription className="text-base">
               {mockFarmer.location} • Currently growing {mockFarmer.currentCrop} on {mockFarmer.farmSize} acres

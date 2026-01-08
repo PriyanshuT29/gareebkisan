@@ -6,6 +6,7 @@ import { Badge } from "../components/ui/badge"
 import { Switch } from "../components/ui/switch"
 import { mockWeatherAlerts } from "../data/mockData"
 import { getForecastByCity, type ForecastData } from "../services/weatherService"
+import { useTranslation } from "react-i18next"
 
 const getWeatherIcon = (condition: string) => {
   if (condition.toLowerCase().includes("rain")) return CloudRain
@@ -25,6 +26,7 @@ const getRiskColor = (risk: "low" | "medium" | "high") => {
 }
 
 export function WeatherAlerts() {
+  const { t } = useTranslation()
   const [pushAlerts, setPushAlerts] = useState(true)
   const [smsAlerts, setSmsAlerts] = useState(false)
   const [forecast, setForecast] = useState<ForecastData[]>([])
@@ -60,7 +62,7 @@ export function WeatherAlerts() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-2 text-3xl font-bold">Weather Alerts</h1>
+        <h1 className="mb-2 text-3xl font-bold">{t('weather.title')}</h1>
         <p className="text-muted-foreground">
           Real-time weather forecasts with crop-specific risk assessments
         </p>
@@ -100,7 +102,7 @@ export function WeatherAlerts() {
       >
         <Card>
           <CardHeader>
-            <CardTitle>7-Day Forecast</CardTitle>
+            <CardTitle>{t('weather.week')}</CardTitle>
             <CardDescription>Weather conditions and risk levels for {city.split(',')[0]}</CardDescription>
           </CardHeader>
           <CardContent>

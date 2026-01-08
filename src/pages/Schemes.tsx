@@ -4,8 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { mockSchemes } from "../data/mockData"
+import { useTranslation } from "react-i18next"
 
 export function Schemes() {
+  const { t } = useTranslation()
   return (
     <div className="space-y-6">
       <motion.div
@@ -13,7 +15,7 @@ export function Schemes() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-3xl font-bold">Government Schemes</h1>
+        <h1 className="text-3xl font-bold">{t('schemes.title')}</h1>
         <p className="text-muted-foreground">Find and apply for relevant government subsidies and programs</p>
       </motion.div>
 
@@ -40,15 +42,15 @@ export function Schemes() {
               <CardContent>
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">Benefit</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t('schemes.benefits')}</p>
                     <p className="font-semibold text-primary">{scheme.benefit}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">Eligibility</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t('schemes.eligibility')}</p>
                     <p className="text-sm">{scheme.eligibility}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">Deadline</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t('schemes.deadline')}</p>
                     <div className="flex items-center gap-2 text-sm">
                       <Calendar className="h-4 w-4" />
                       {scheme.deadline}
@@ -59,7 +61,7 @@ export function Schemes() {
               <CardFooter>
                 <Button className="gap-2" asChild>
                   <a href={scheme.link} target="_blank" rel="noopener noreferrer">
-                    Apply Now <ExternalLink className="h-4 w-4" />
+                    {t('schemes.apply')} <ExternalLink className="h-4 w-4" />
                   </a>
                 </Button>
               </CardFooter>

@@ -6,16 +6,12 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Switch } from "../components/ui/switch"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select"
+import { LanguageSwitcher } from "../components/LanguageSwitcher"
+import { useTranslation } from "react-i18next"
 
 export function Settings() {
   const [loading, setLoading] = useState(false)
+  const { t } = useTranslation()
 
   const handleSave = () => {
     setLoading(true)
@@ -31,7 +27,7 @@ export function Settings() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="mb-2 text-3xl font-bold">Settings</h1>
+        <h1 className="mb-2 text-3xl font-bold">{t('settings.title')}</h1>
         <p className="text-muted-foreground">
           Manage your account preferences and notification settings
         </p>
@@ -39,8 +35,8 @@ export function Settings() {
 
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="profile">{t('settings.profile')}</TabsTrigger>
+          <TabsTrigger value="notifications">{t('settings.notifications')}</TabsTrigger>
           <TabsTrigger value="preferences">Preferences</TabsTrigger>
         </TabsList>
 
@@ -155,7 +151,7 @@ export function Settings() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Globe className="h-5 w-5" />
-                  Language & Region
+                  {t('settings.language')} & Region
                 </CardTitle>
                 <CardDescription>
                   Customize your app experience
@@ -163,18 +159,8 @@ export function Settings() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">App Language</label>
-                  <Select defaultValue="en">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="en">English</SelectItem>
-                      <SelectItem value="hi">Hindi (हिंदी)</SelectItem>
-                      <SelectItem value="pa">Punjabi (ਪੰਜਾਬੀ)</SelectItem>
-                      <SelectItem value="ta">Tamil (தமிழ்)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="text-sm font-medium">{t('settings.language')}</label>
+                  <LanguageSwitcher />
                 </div>
               </CardContent>
             </Card>
@@ -200,7 +186,7 @@ export function Settings() {
                   <Switch />
                 </div>
                 <div className="pt-4">
-                  <Button variant="outline" className="w-full sm:w-auto">Change Password</Button>
+                  <Button variant="outline" className="w-full sm:w-auto">{t('settings.changePassword')}</Button>
                 </div>
               </CardContent>
             </Card>

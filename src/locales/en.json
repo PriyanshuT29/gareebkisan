@@ -1,0 +1,243 @@
+{
+  "app": {
+    "name": "KrishiBandhu",
+    "tagline": "Your Digital Farming Companion"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "farmLog": "Farm Log",
+    "marketplace": "Marketplace",
+    "community": "Community",
+    "schemes": "Schemes",
+    "weather": "Weather Alerts",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "language": {
+    "select": "Select Language",
+    "en": "English",
+    "hi": "Hindi - हिंदी",
+    "pa": "Punjabi - ਪੰਜਾਬੀ",
+    "mr": "Marathi - मराठी",
+    "ta": "Tamil - தமிழ்",
+    "te": "Telugu - తెలుగు",
+    "gu": "Gujarati - ગુજરાતી",
+    "bn": "Bengali - বাংলা",
+    "kn": "Kannada - ಕನ್ನಡ",
+    "or": "Odia - ଓଡ଼ିଆ"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "role": "I am a",
+    "farmer": "Farmer",
+    "buyer": "Buyer"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "overview": "Farm Overview",
+    "totalCrops": "Total Crops",
+    "activeLogs": "Active Logs",
+    "totalRevenue": "Total Revenue",
+    "weather": "Weather",
+    "recentActivities": "Recent Activities",
+    "quickActions": "Quick Actions",
+    "addCrop": "Add Crop",
+    "viewMarket": "View Market",
+    "checkWeather": "Check Weather",
+    "statistics": "Statistics",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "growth": "Growth"
+  },
+  "farmLog": {
+    "title": "Farm Log",
+    "addLog": "Add New Log",
+    "cropName": "Crop Name",
+    "area": "Area (acres)",
+    "sowingDate": "Sowing Date",
+    "expectedHarvest": "Expected Harvest",
+    "status": "Status",
+    "expenses": "Expenses",
+    "activities": "Activities",
+    "addActivity": "Add Activity",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View Details",
+    "filter": "Filter",
+    "search": "Search crops...",
+    "all": "All",
+    "active": "Active",
+    "harvested": "Harvested"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "addListing": "Add Listing",
+    "myListings": "My Listings",
+    "browse": "Browse Products",
+    "productName": "Product Name",
+    "category": "Category",
+    "price": "Price",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "description": "Description",
+    "location": "Location",
+    "contact": "Contact Seller",
+    "buy": "Buy Now",
+    "inquire": "Send Inquiry",
+    "vegetables": "Vegetables",
+    "fruits": "Fruits",
+    "grains": "Grains",
+    "seeds": "Seeds",
+    "fertilizer": "Fertilizer",
+    "equipment": "Equipment",
+    "perKg": "per kg",
+    "perQuintal": "per quintal",
+    "perUnit": "per unit"
+  },
+  "community": {
+    "title": "Community",
+    "createPost": "Create Post",
+    "whatOnMind": "What's on your mind?",
+    "share": "Share",
+    "like": "Like",
+    "comment": "Comment",
+    "comments": "Comments",
+    "writeComment": "Write a comment...",
+    "post": "Post",
+    "myPosts": "My Posts",
+    "trending": "Trending",
+    "recent": "Recent",
+    "popular": "Popular"
+  },
+  "schemes": {
+    "title": "Government Schemes",
+    "available": "Available Schemes",
+    "eligibility": "Eligibility",
+    "benefits": "Benefits",
+    "howToApply": "How to Apply",
+    "apply": "Apply Now",
+    "deadline": "Deadline",
+    "category": "Category",
+    "subsidy": "Subsidy",
+    "loan": "Loan",
+    "insurance": "Insurance",
+    "training": "Training"
+  },
+  "weather": {
+    "title": "Weather Alerts",
+    "current": "Current Weather",
+    "forecast": "Forecast",
+    "alerts": "Active Alerts",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "rainfall": "Rainfall",
+    "wind": "Wind Speed",
+    "advisory": "Farm Advisory",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "week": "7-Day Forecast"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile Settings",
+    "account": "Account",
+    "notifications": "Notifications",
+    "language": "Language",
+    "privacy": "Privacy",
+    "about": "About",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "editProfile": "Edit Profile",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "add": "Add",
+    "update": "Update",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "noNew": "No new notifications",
+    "viewAll": "View All"
+  },
+  "landing": {
+    "hero": {
+      "title": "Empowering Farmers with Digital Solutions",
+      "subtitle": "Track your crops, connect with buyers, access government schemes, and grow your farm business",
+      "cta": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "features": {
+      "title": "Everything You Need to Manage Your Farm",
+      "farmLog": {
+        "title": "Digital Farm Log",
+        "description": "Track your crops, expenses, and activities in one place"
+      },
+      "marketplace": {
+        "title": "Direct Marketplace",
+        "description": "Sell your produce directly to buyers without middlemen"
+      },
+      "community": {
+        "title": "Farmer Community",
+        "description": "Connect with fellow farmers, share knowledge and experiences"
+      },
+      "schemes": {
+        "title": "Government Schemes",
+        "description": "Easy access to subsidies, loans, and government benefits"
+      },
+      "weather": {
+        "title": "Weather Alerts",
+        "description": "Get real-time weather updates and farming advisories"
+      },
+      "prices": {
+        "title": "Market Prices",
+        "description": "Live mandi prices to help you make informed decisions"
+      }
+    },
+    "stats": {
+      "farmers": "Active Farmers",
+      "crops": "Crops Tracked",
+      "revenue": "Revenue Generated",
+      "schemes": "Schemes Accessed"
+    }
+  }
+}

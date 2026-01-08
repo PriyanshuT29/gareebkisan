@@ -2,14 +2,19 @@ import { Bell, Globe, Menu } from "lucide-react"
 import { Button } from "../ui/button"
 import { Badge } from "../ui/badge"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 interface NavbarProps {
   onMenuClick?: () => void
 }
 
 export function Navbar({ onMenuClick }: NavbarProps) {
-  const [language, setLanguage] = useState("EN")
+  const { t, i18n } = useTranslation()
   const [notifications] = useState(3)
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -24,9 +29,9 @@ export function Navbar({ onMenuClick }: NavbarProps) {
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="KrishiBandhu" className="h-8 w-8 rounded-lg" />
+            <img src="/logo.png" alt={t('app.name')} className="h-8 w-8 rounded-lg" />
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              KrishiBandhu
+              {t('app.name')}
             </span>
           </div>
         </div>
@@ -35,14 +40,20 @@ export function Navbar({ onMenuClick }: NavbarProps) {
           {/* Language Switcher */}
           <div className="relative hidden sm:block">
             <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              value={i18n.language}
+              onChange={(e) => changeLanguage(e.target.value)}
               className="h-10 rounded-lg border border-input bg-background px-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="EN">English</option>
-              <option value="HI">हिंदी</option>
-              <option value="PA">ਪੰਜਾਬੀ</option>
-              <option value="TA">தமிழ்</option>
+              <option value="en">{t('language.en')}</option>
+              <option value="hi">{t('language.hi')}</option>
+              <option value="pa">{t('language.pa')}</option>
+              <option value="mr">{t('language.mr')}</option>
+              <option value="ta">{t('language.ta')}</option>
+              <option value="te">{t('language.te')}</option>
+              <option value="gu">{t('language.gu')}</option>
+              <option value="bn">{t('language.bn')}</option>
+              <option value="kn">{t('language.kn')}</option>
+              <option value="or">{t('language.or')}</option>
             </select>
             <Globe className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
           </div>

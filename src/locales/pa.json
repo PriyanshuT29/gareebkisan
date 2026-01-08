@@ -1,0 +1,243 @@
+{
+  "app": {
+    "name": "ਕ੍ਰਿਸ਼ੀਬੰਧੂ",
+    "tagline": "ਤੁਹਾਡਾ ਡਿਜੀਟਲ ਖੇਤੀ ਸਾਥੀ"
+  },
+  "nav": {
+    "dashboard": "ਡੈਸ਼ਬੋਰਡ",
+    "farmLog": "ਫਾਰਮ ਲੌਗ",
+    "marketplace": "ਬਾਜ਼ਾਰ",
+    "community": "ਭਾਈਚਾਰਾ",
+    "schemes": "ਯੋਜਨਾਵਾਂ",
+    "weather": "ਮੌਸਮ ਅਲਰਟ",
+    "settings": "ਸੈਟਿੰਗਾਂ",
+    "profile": "ਪ੍ਰੋਫਾਈਲ",
+    "logout": "ਲੌਗ ਆਊਟ"
+  },
+  "language": {
+    "select": "ਭਾਸ਼ਾ ਚੁਣੋ",
+    "en": "ਅੰਗਰੇਜ਼ੀ - English",
+    "hi": "ਹਿੰਦੀ - हिंदी",
+    "pa": "ਪੰਜਾਬੀ",
+    "mr": "ਮਰਾਠੀ - मराठी",
+    "ta": "ਤਾਮਿਲ - தமிழ்",
+    "te": "ਤੇਲਗੂ - తెలుగు",
+    "gu": "ਗੁਜਰਾਤੀ - ગુજરાતી",
+    "bn": "ਬੰਗਾਲੀ - বাংলা",
+    "kn": "ਕੰਨੜ - ಕನ್ನಡ",
+    "or": "ਓੜੀਆ - ଓଡ଼ିଆ"
+  },
+  "auth": {
+    "login": "ਲੌਗਇਨ",
+    "register": "ਰਜਿਸਟਰ",
+    "email": "ਈਮੇਲ",
+    "password": "ਪਾਸਵਰਡ",
+    "confirmPassword": "ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
+    "name": "ਪੂਰਾ ਨਾਮ",
+    "phone": "ਫ਼ੋਨ ਨੰਬਰ",
+    "forgotPassword": "ਪਾਸਵਰਡ ਭੁੱਲ ਗਏ?",
+    "noAccount": "ਖਾਤਾ ਨਹੀਂ ਹੈ?",
+    "hasAccount": "ਪਹਿਲਾਂ ਤੋਂ ਖਾਤਾ ਹੈ?",
+    "signIn": "ਸਾਈਨ ਇਨ ਕਰੋ",
+    "signUp": "ਸਾਈਨ ਅੱਪ ਕਰੋ",
+    "role": "ਮੈਂ ਹਾਂ",
+    "farmer": "ਕਿਸਾਨ",
+    "buyer": "ਖਰੀਦਦਾਰ"
+  },
+  "dashboard": {
+    "welcome": "ਸਵਾਗਤ ਹੈ",
+    "overview": "ਫਾਰਮ ਸੰਖੇਪ",
+    "totalCrops": "ਕੁੱਲ ਫਸਲਾਂ",
+    "activeLogs": "ਸਰਗਰਮ ਲੌਗ",
+    "totalRevenue": "ਕੁੱਲ ਆਮਦਨ",
+    "weather": "ਮੌਸਮ",
+    "recentActivities": "ਹਾਲੀਆ ਗਤੀਵਿਧੀਆਂ",
+    "quickActions": "ਤੇਜ਼ ਕਾਰਵਾਈਆਂ",
+    "addCrop": "ਫਸਲ ਸ਼ਾਮਲ ਕਰੋ",
+    "viewMarket": "ਬਾਜ਼ਾਰ ਦੇਖੋ",
+    "checkWeather": "ਮੌਸਮ ਦੇਖੋ",
+    "statistics": "ਅੰਕੜੇ",
+    "thisMonth": "ਇਸ ਮਹੀਨੇ",
+    "lastMonth": "ਪਿਛਲਾ ਮਹੀਨਾ",
+    "growth": "ਵਾਧਾ"
+  },
+  "farmLog": {
+    "title": "ਫਾਰਮ ਲੌਗ",
+    "addLog": "ਨਵਾਂ ਲੌਗ ਸ਼ਾਮਲ ਕਰੋ",
+    "cropName": "ਫਸਲ ਦਾ ਨਾਮ",
+    "area": "ਖੇਤਰਫਲ (ਏਕੜ)",
+    "sowingDate": "ਬੀਜਣ ਦੀ ਤਰੀਕ",
+    "expectedHarvest": "ਅਨੁਮਾਨਿਤ ਵਾਢੀ",
+    "status": "ਸਥਿਤੀ",
+    "expenses": "ਖਰਚੇ",
+    "activities": "ਗਤੀਵਿਧੀਆਂ",
+    "addActivity": "ਗਤੀਵਿਧੀ ਸ਼ਾਮਲ ਕਰੋ",
+    "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+    "delete": "ਮਿਟਾਓ",
+    "view": "ਵੇਰਵੇ ਦੇਖੋ",
+    "filter": "ਫਿਲਟਰ",
+    "search": "ਫਸਲ ਖੋਜੋ...",
+    "all": "ਸਾਰੇ",
+    "active": "ਸਰਗਰਮ",
+    "harvested": "ਵਾਢੀ ਕੀਤੀ"
+  },
+  "marketplace": {
+    "title": "ਬਾਜ਼ਾਰ",
+    "addListing": "ਲਿਸਟਿੰਗ ਸ਼ਾਮਲ ਕਰੋ",
+    "myListings": "ਮੇਰੀਆਂ ਲਿਸਟਿੰਗਾਂ",
+    "browse": "ਉਤਪਾਦ ਬ੍ਰਾਊਜ਼ ਕਰੋ",
+    "productName": "ਉਤਪਾਦ ਦਾ ਨਾਮ",
+    "category": "ਸ਼੍ਰੇਣੀ",
+    "price": "ਕੀਮਤ",
+    "quantity": "ਮਾਤਰਾ",
+    "unit": "ਇਕਾਈ",
+    "description": "ਵੇਰਵਾ",
+    "location": "ਸਥਾਨ",
+    "contact": "ਵਿਕਰੇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+    "buy": "ਹੁਣੇ ਖਰੀਦੋ",
+    "inquire": "ਪੁੱਛਗਿੱਛ ਭੇਜੋ",
+    "vegetables": "ਸਬਜ਼ੀਆਂ",
+    "fruits": "ਫਲ",
+    "grains": "ਅਨਾਜ",
+    "seeds": "ਬੀਜ",
+    "fertilizer": "ਖਾਦ",
+    "equipment": "ਉਪਕਰਣ",
+    "perKg": "ਪ੍ਰਤੀ ਕਿਲੋ",
+    "perQuintal": "ਪ੍ਰਤੀ ਕੁਇੰਟਲ",
+    "perUnit": "ਪ੍ਰਤੀ ਇਕਾਈ"
+  },
+  "community": {
+    "title": "ਭਾਈਚਾਰਾ",
+    "createPost": "ਪੋਸਟ ਬਣਾਓ",
+    "whatOnMind": "ਤੁਹਾਡੇ ਮਨ ਵਿੱਚ ਕੀ ਹੈ?",
+    "share": "ਸਾਂਝਾ ਕਰੋ",
+    "like": "ਪਸੰਦ",
+    "comment": "ਟਿੱਪਣੀ",
+    "comments": "ਟਿੱਪਣੀਆਂ",
+    "writeComment": "ਟਿੱਪਣੀ ਲਿਖੋ...",
+    "post": "ਪੋਸਟ",
+    "myPosts": "ਮੇਰੀਆਂ ਪੋਸਟਾਂ",
+    "trending": "ਟ੍ਰੈਂਡਿੰਗ",
+    "recent": "ਹਾਲੀਆ",
+    "popular": "ਪ੍ਰਸਿੱਧ"
+  },
+  "schemes": {
+    "title": "ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ",
+    "available": "ਉਪਲਬਧ ਯੋਜਨਾਵਾਂ",
+    "eligibility": "ਯੋਗਤਾ",
+    "benefits": "ਲਾਭ",
+    "howToApply": "ਕਿਵੇਂ ਅਰਜ਼ੀ ਦੇਣੀ ਹੈ",
+    "apply": "ਹੁਣੇ ਅਰਜ਼ੀ ਦਿਓ",
+    "deadline": "ਆਖਰੀ ਤਰੀਕ",
+    "category": "ਸ਼੍ਰੇਣੀ",
+    "subsidy": "ਸਬਸਿਡੀ",
+    "loan": "ਕਰਜ਼ਾ",
+    "insurance": "ਬੀਮਾ",
+    "training": "ਸਿਖਲਾਈ"
+  },
+  "weather": {
+    "title": "ਮੌਸਮ ਅਲਰਟ",
+    "current": "ਮੌਜੂਦਾ ਮੌਸਮ",
+    "forecast": "ਪੂਰਵ-ਅਨੁਮਾਨ",
+    "alerts": "ਸਰਗਰਮ ਅਲਰਟ",
+    "temperature": "ਤਾਪਮਾਨ",
+    "humidity": "ਨਮੀ",
+    "rainfall": "ਬਾਰਿਸ਼",
+    "wind": "ਹਵਾ ਦੀ ਗਤੀ",
+    "advisory": "ਖੇਤੀ ਸਲਾਹ",
+    "today": "ਅੱਜ",
+    "tomorrow": "ਕੱਲ੍ਹ",
+    "week": "7 ਦਿਨਾਂ ਦਾ ਪੂਰਵ-ਅਨੁਮਾਨ"
+  },
+  "settings": {
+    "title": "ਸੈਟਿੰਗਾਂ",
+    "profile": "ਪ੍ਰੋਫਾਈਲ ਸੈਟਿੰਗਾਂ",
+    "account": "ਖਾਤਾ",
+    "notifications": "ਸੂਚਨਾਵਾਂ",
+    "language": "ਭਾਸ਼ਾ",
+    "privacy": "ਗੋਪਨੀਯਤਾ",
+    "about": "ਬਾਰੇ",
+    "save": "ਤਬਦੀਲੀਆਂ ਸੰਭਾਲੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "editProfile": "ਪ੍ਰੋਫਾਈਲ ਸੰਪਾਦਿਤ ਕਰੋ",
+    "changePassword": "ਪਾਸਵਰਡ ਬਦਲੋ",
+    "currentPassword": "ਮੌਜੂਦਾ ਪਾਸਵਰਡ",
+    "newPassword": "ਨਵਾਂ ਪਾਸਵਰਡ"
+  },
+  "common": {
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+    "error": "ਗਲਤੀ",
+    "success": "ਸਫਲਤਾ",
+    "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "save": "ਸੰਭਾਲੋ",
+    "delete": "ਮਿਟਾਓ",
+    "edit": "ਸੰਪਾਦਿਤ ਕਰੋ",
+    "view": "ਦੇਖੋ",
+    "close": "ਬੰਦ ਕਰੋ",
+    "search": "ਖੋਜੋ",
+    "filter": "ਫਿਲਟਰ",
+    "sort": "ਕ੍ਰਮਬੱਧ",
+    "add": "ਸ਼ਾਮਲ ਕਰੋ",
+    "update": "ਅੱਪਡੇਟ ਕਰੋ",
+    "refresh": "ਤਾਜ਼ਾ ਕਰੋ",
+    "back": "ਵਾਪਸ",
+    "next": "ਅਗਲਾ",
+    "previous": "ਪਿਛਲਾ",
+    "confirm": "ਪੁਸ਼ਟੀ ਕਰੋ",
+    "yes": "ਹਾਂ",
+    "no": "ਨਹੀਂ",
+    "today": "ਅੱਜ",
+    "yesterday": "ਕੱਲ੍ਹ",
+    "week": "ਹਫ਼ਤਾ",
+    "month": "ਮਹੀਨਾ",
+    "year": "ਸਾਲ"
+  },
+  "notifications": {
+    "title": "ਸੂਚਨਾਵਾਂ",
+    "markAllRead": "ਸਾਰੀਆਂ ਨੂੰ ਪੜ੍ਹਿਆ ਚਿੰਨ੍ਹਿਤ ਕਰੋ",
+    "noNew": "ਕੋਈ ਨਵੀਂ ਸੂਚਨਾ ਨਹੀਂ",
+    "viewAll": "ਸਾਰੀਆਂ ਦੇਖੋ"
+  },
+  "landing": {
+    "hero": {
+      "title": "ਡਿਜੀਟਲ ਹੱਲਾਂ ਨਾਲ ਕਿਸਾਨਾਂ ਨੂੰ ਸਸ਼ਕਤ ਬਣਾਉਣਾ",
+      "subtitle": "ਆਪਣੀਆਂ ਫਸਲਾਂ ਨੂੰ ਟ੍ਰੈਕ ਕਰੋ, ਖਰੀਦਦਾਰਾਂ ਨਾਲ ਜੁੜੋ, ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ ਤੱਕ ਪਹੁੰਚੋ, ਅਤੇ ਆਪਣੇ ਖੇਤੀ ਕਾਰੋਬਾਰ ਨੂੰ ਵਧਾਓ",
+      "cta": "ਸ਼ੁਰੂ ਕਰੋ",
+      "learnMore": "ਹੋਰ ਜਾਣੋ"
+    },
+    "features": {
+      "title": "ਆਪਣੇ ਫਾਰਮ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਨ ਲਈ ਜ਼ਰੂਰੀ ਸਭ ਕੁਝ",
+      "farmLog": {
+        "title": "ਡਿਜੀਟਲ ਫਾਰਮ ਲੌਗ",
+        "description": "ਆਪਣੀਆਂ ਫਸਲਾਂ, ਖਰਚਿਆਂ ਅਤੇ ਗਤੀਵਿਧੀਆਂ ਨੂੰ ਇੱਕ ਥਾਂ ਤੇ ਟ੍ਰੈਕ ਕਰੋ"
+      },
+      "marketplace": {
+        "title": "ਸਿੱਧਾ ਬਾਜ਼ਾਰ",
+        "description": "ਵਿਚੋਲਿਆਂ ਤੋਂ ਬਿਨਾਂ ਸਿੱਧੇ ਖਰੀਦਦਾਰਾਂ ਨੂੰ ਆਪਣੀ ਪੈਦਾਵਾਰ ਵੇਚੋ"
+      },
+      "community": {
+        "title": "ਕਿਸਾਨ ਭਾਈਚਾਰਾ",
+        "description": "ਸਾਥੀ ਕਿਸਾਨਾਂ ਨਾਲ ਜੁੜੋ, ਗਿਆਨ ਅਤੇ ਤਜ਼ਰਬੇ ਸਾਂਝੇ ਕਰੋ"
+      },
+      "schemes": {
+        "title": "ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ",
+        "description": "ਸਬਸਿਡੀਆਂ, ਕਰਜ਼ਿਆਂ ਅਤੇ ਸਰਕਾਰੀ ਲਾਭਾਂ ਤੱਕ ਆਸਾਨ ਪਹੁੰਚ"
+      },
+      "weather": {
+        "title": "ਮੌਸਮ ਅਲਰਟ",
+        "description": "ਰੀਅਲ-ਟਾਈਮ ਮੌਸਮ ਅੱਪਡੇਟ ਅਤੇ ਖੇਤੀ ਸਲਾਹ ਪ੍ਰਾਪਤ ਕਰੋ"
+      },
+      "prices": {
+        "title": "ਬਾਜ਼ਾਰ ਕੀਮਤਾਂ",
+        "description": "ਸੂਚਿਤ ਫੈਸਲੇ ਲੈਣ ਵਿੱਚ ਮਦਦ ਲਈ ਲਾਈਵ ਮੰਡੀ ਕੀਮਤਾਂ"
+      }
+    },
+    "stats": {
+      "farmers": "ਸਰਗਰਮ ਕਿਸਾਨ",
+      "crops": "ਟ੍ਰੈਕ ਕੀਤੀਆਂ ਫਸਲਾਂ",
+      "revenue": "ਪੈਦਾ ਕੀਤੀ ਆਮਦਨ",
+      "schemes": "ਐਕਸੈਸ ਕੀਤੀਆਂ ਯੋਜਨਾਵਾਂ"
+    }
+  }
+}

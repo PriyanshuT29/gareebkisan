@@ -1,0 +1,243 @@
+{
+  "app": {
+    "name": "कृषिबंधु",
+    "tagline": "आपका डिजिटल खेती साथी"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "farmLog": "फार्म लॉग",
+    "marketplace": "बाजार",
+    "community": "समुदाय",
+    "schemes": "योजनाएं",
+    "weather": "मौसम अलर्ट",
+    "settings": "सेटिंग्स",
+    "profile": "प्रोफाइल",
+    "logout": "लॉग आउट"
+  },
+  "language": {
+    "select": "भाषा चुनें",
+    "en": "अंग्रेजी - English",
+    "hi": "हिंदी",
+    "pa": "पंजाबी - ਪੰਜਾਬੀ",
+    "mr": "मराठी",
+    "ta": "तमिल - தமிழ்",
+    "te": "तेलुगु - తెలుగు",
+    "gu": "गुजराती - ગુજરાતી",
+    "bn": "बंगाली - বাংলা",
+    "kn": "कन्नड़ - ಕನ್ನಡ",
+    "or": "ओड़िया - ଓଡ଼ିଆ"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "register": "रजिस्टर",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "name": "पूरा नाम",
+    "phone": "फोन नंबर",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "noAccount": "खाता नहीं है?",
+    "hasAccount": "पहले से खाता है?",
+    "signIn": "साइन इन करें",
+    "signUp": "साइन अप करें",
+    "role": "मैं हूँ",
+    "farmer": "किसान",
+    "buyer": "खरीदार"
+  },
+  "dashboard": {
+    "welcome": "स्वागत है",
+    "overview": "फार्म अवलोकन",
+    "totalCrops": "कुल फसलें",
+    "activeLogs": "सक्रिय लॉग",
+    "totalRevenue": "कुल आय",
+    "weather": "मौसम",
+    "recentActivities": "हाल की गतिविधियां",
+    "quickActions": "त्वरित कार्य",
+    "addCrop": "फसल जोड़ें",
+    "viewMarket": "बाजार देखें",
+    "checkWeather": "मौसम देखें",
+    "statistics": "सांख्यिकी",
+    "thisMonth": "इस महीने",
+    "lastMonth": "पिछला महीना",
+    "growth": "वृद्धि"
+  },
+  "farmLog": {
+    "title": "फार्म लॉग",
+    "addLog": "नया लॉग जोड़ें",
+    "cropName": "फसल का नाम",
+    "area": "क्षेत्रफल (एकड़)",
+    "sowingDate": "बुवाई की तारीख",
+    "expectedHarvest": "अपेक्षित कटाई",
+    "status": "स्थिति",
+    "expenses": "खर्च",
+    "activities": "गतिविधियां",
+    "addActivity": "गतिविधि जोड़ें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "view": "विवरण देखें",
+    "filter": "फ़िल्टर",
+    "search": "फसल खोजें...",
+    "all": "सभी",
+    "active": "सक्रिय",
+    "harvested": "कटाई की गई"
+  },
+  "marketplace": {
+    "title": "बाजार",
+    "addListing": "लिस्टिंग जोड़ें",
+    "myListings": "मेरी लिस्टिंग",
+    "browse": "उत्पाद ब्राउज़ करें",
+    "productName": "उत्पाद का नाम",
+    "category": "श्रेणी",
+    "price": "कीमत",
+    "quantity": "मात्रा",
+    "unit": "इकाई",
+    "description": "विवरण",
+    "location": "स्थान",
+    "contact": "विक्रेता से संपर्क करें",
+    "buy": "अभी खरीदें",
+    "inquire": "पूछताछ भेजें",
+    "vegetables": "सब्जियां",
+    "fruits": "फल",
+    "grains": "अनाज",
+    "seeds": "बीज",
+    "fertilizer": "उर्वरक",
+    "equipment": "उपकरण",
+    "perKg": "प्रति किलो",
+    "perQuintal": "प्रति क्विंटल",
+    "perUnit": "प्रति इकाई"
+  },
+  "community": {
+    "title": "समुदाय",
+    "createPost": "पोस्ट बनाएं",
+    "whatOnMind": "आपके मन में क्या है?",
+    "share": "शेयर करें",
+    "like": "पसंद",
+    "comment": "टिप्पणी",
+    "comments": "टिप्पणियां",
+    "writeComment": "टिप्पणी लिखें...",
+    "post": "पोस्ट",
+    "myPosts": "मेरी पोस्ट",
+    "trending": "ट्रेंडिंग",
+    "recent": "हाल का",
+    "popular": "लोकप्रिय"
+  },
+  "schemes": {
+    "title": "सरकारी योजनाएं",
+    "available": "उपलब्ध योजनाएं",
+    "eligibility": "पात्रता",
+    "benefits": "लाभ",
+    "howToApply": "आवेदन कैसे करें",
+    "apply": "अभी आवेदन करें",
+    "deadline": "अंतिम तिथि",
+    "category": "श्रेणी",
+    "subsidy": "सब्सिडी",
+    "loan": "ऋण",
+    "insurance": "बीमा",
+    "training": "प्रशिक्षण"
+  },
+  "weather": {
+    "title": "मौसम अलर्ट",
+    "current": "वर्तमान मौसम",
+    "forecast": "पूर्वानुमान",
+    "alerts": "सक्रिय अलर्ट",
+    "temperature": "तापमान",
+    "humidity": "नमी",
+    "rainfall": "वर्षा",
+    "wind": "हवा की गति",
+    "advisory": "कृषि सलाह",
+    "today": "आज",
+    "tomorrow": "कल",
+    "week": "7 दिन का पूर्वानुमान"
+  },
+  "settings": {
+    "title": "सेटिंग्स",
+    "profile": "प्रोफाइल सेटिंग्स",
+    "account": "खाता",
+    "notifications": "सूचनाएं",
+    "language": "भाषा",
+    "privacy": "गोपनीयता",
+    "about": "के बारे में",
+    "save": "परिवर्तन सहेजें",
+    "cancel": "रद्द करें",
+    "editProfile": "प्रोफाइल संपादित करें",
+    "changePassword": "पासवर्ड बदलें",
+    "currentPassword": "वर्तमान पासवर्ड",
+    "newPassword": "नया पासवर्ड"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "submit": "जमा करें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "view": "देखें",
+    "close": "बंद करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "sort": "सॉर्ट",
+    "add": "जोड़ें",
+    "update": "अपडेट करें",
+    "refresh": "रिफ्रेश करें",
+    "back": "वापस",
+    "next": "अगला",
+    "previous": "पिछला",
+    "confirm": "पुष्टि करें",
+    "yes": "हां",
+    "no": "नहीं",
+    "today": "आज",
+    "yesterday": "कल",
+    "week": "सप्ताह",
+    "month": "महीना",
+    "year": "वर्ष"
+  },
+  "notifications": {
+    "title": "सूचनाएं",
+    "markAllRead": "सभी को पढ़ा हुआ चिह्नित करें",
+    "noNew": "कोई नई सूचना नहीं",
+    "viewAll": "सभी देखें"
+  },
+  "landing": {
+    "hero": {
+      "title": "डिजिटल समाधान से किसानों को सशक्त बनाना",
+      "subtitle": "अपनी फसलों को ट्रैक करें, खरीदारों से जुड़ें, सरकारी योजनाओं तक पहुंचें, और अपने खेती व्यवसाय को बढ़ाएं",
+      "cta": "शुरू करें",
+      "learnMore": "और जानें"
+    },
+    "features": {
+      "title": "अपने फार्म को प्रबंधित करने के लिए आवश्यक सब कुछ",
+      "farmLog": {
+        "title": "डिजिटल फार्म लॉग",
+        "description": "अपनी फसलों, खर्चों और गतिविधियों को एक जगह ट्रैक करें"
+      },
+      "marketplace": {
+        "title": "सीधा बाजार",
+        "description": "बिचौलियों के बिना सीधे खरीदारों को अपनी उपज बेचें"
+      },
+      "community": {
+        "title": "किसान समुदाय",
+        "description": "साथी किसानों से जुड़ें, ज्ञान और अनुभव साझा करें"
+      },
+      "schemes": {
+        "title": "सरकारी योजनाएं",
+        "description": "सब्सिडी, ऋण और सरकारी लाभों तक आसान पहुंच"
+      },
+      "weather": {
+        "title": "मौसम अलर्ट",
+        "description": "रियल-टाइम मौसम अपडेट और कृषि सलाह प्राप्त करें"
+      },
+      "prices": {
+        "title": "बाजार मूल्य",
+        "description": "सूचित निर्णय लेने में मदद के लिए लाइव मंडी कीमतें"
+      }
+    },
+    "stats": {
+      "farmers": "सक्रिय किसान",
+      "crops": "ट्रैक की गई फसलें",
+      "revenue": "उत्पन्न आय",
+      "schemes": "एक्सेस की गई योजनाएं"
+    }
+  }
+}

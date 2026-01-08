@@ -12,8 +12,10 @@ import {
   SelectValue,
 } from "../components/ui/select"
 import { mockMarketplaceItems } from "../data/mockData"
+import { useTranslation } from "react-i18next"
 
 export function Marketplace() {
+  const { t } = useTranslation()
   const [filter, setFilter] = useState("all")
 
   const filteredItems = filter === "all" 
@@ -29,22 +31,22 @@ export function Marketplace() {
         className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold">Marketplace</h1>
-          <p className="text-muted-foreground">Buy and sell agricultural inputs and equipment</p>
+          <h1 className="text-3xl font-bold">{t('marketplace.title')}</h1>
+          <p className="text-muted-foreground">{t('marketplace.browse')}</p>
         </div>
         <div className="flex gap-4">
           <Select value={filter} onValueChange={setFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Category" />
+              <SelectValue placeholder={t('marketplace.category')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="seeds">Seeds</SelectItem>
-              <SelectItem value="fertilizers">Fertilizers</SelectItem>
-              <SelectItem value="equipment">Equipment</SelectItem>
+              <SelectItem value="all">{t('farmLog.all')}</SelectItem>
+              <SelectItem value="seeds">{t('marketplace.seeds')}</SelectItem>
+              <SelectItem value="fertilizers">{t('marketplace.fertilizer')}</SelectItem>
+              <SelectItem value="equipment">{t('marketplace.equipment')}</SelectItem>
             </SelectContent>
           </Select>
-          <Button>Sell Item</Button>
+          <Button>{t('marketplace.addListing')}</Button>
         </div>
       </motion.div>
 
@@ -80,7 +82,7 @@ export function Marketplace() {
                 <p className="text-sm text-muted-foreground mt-2">Seller: {item.seller}</p>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Contact Seller</Button>
+                <Button className="w-full">{t('marketplace.contact')}</Button>
               </CardFooter>
             </Card>
           </motion.div>

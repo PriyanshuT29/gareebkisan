@@ -5,8 +5,10 @@ import { Card, CardContent } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { mockCommunityPosts } from "../data/mockData"
+import { useTranslation } from "react-i18next"
 
 export function Community() {
+  const { t } = useTranslation()
   const [posts] = useState(mockCommunityPosts)
 
   return (
@@ -18,12 +20,12 @@ export function Community() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold">Farmer Community</h1>
+          <h1 className="text-3xl font-bold">{t('community.title')}</h1>
           <p className="text-muted-foreground">Connect, share, and learn from other farmers</p>
         </div>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          New Post
+          {t('community.createPost')}
         </Button>
       </motion.div>
 
@@ -59,15 +61,15 @@ export function Community() {
                     <div className="mt-4 flex items-center gap-6 border-t pt-4">
                       <Button variant="ghost" size="sm" className="gap-2">
                         <ThumbsUp className="h-4 w-4" />
-                        {post.likes} Likes
+                        {post.likes} {t('community.like')}
                       </Button>
                       <Button variant="ghost" size="sm" className="gap-2">
                         <MessageSquare className="h-4 w-4" />
-                        {post.comments} Comments
+                        {post.comments} {t('community.comments')}
                       </Button>
                       <Button variant="ghost" size="sm" className="gap-2">
                         <Share2 className="h-4 w-4" />
-                        Share
+                        {t('community.share')}
                       </Button>
                     </div>
                   </div>
