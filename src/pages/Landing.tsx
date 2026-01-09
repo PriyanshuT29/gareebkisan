@@ -1,8 +1,7 @@
 import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { Link, useNavigate } from "react-router-dom"
-import { supabase } from "../lib/supabase"
-import { ArrowRight, Shield, TrendingUp, AlertTriangle, Sparkles, Sprout } from "lucide-react"
+import { ArrowRight, Shield, TrendingUp, AlertTriangle, Sparkles } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
@@ -11,11 +10,10 @@ export function Landing() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate("/dashboard")
-      }
-    })
+    const farmerId = localStorage.getItem("farmer_id")
+    if (farmerId) {
+      navigate("/dashboard")
+    }
   }, [navigate])
 
   return (

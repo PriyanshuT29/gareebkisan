@@ -12,7 +12,6 @@ import {
   ExternalLink,
   Target,
   Users,
-  Lightbulb,
   BookmarkPlus,
   TrendingUp as TrendIcon,
   Bell
@@ -47,61 +46,38 @@ export function Dashboard() {
   const [farmerData, setFarmerData] = useState<any>({ name: "Loading...", location: "Loading...", currentCrop: "Loading...", farmSize: "..." })
   const [, setLoading] = useState(true)
 
-  // 1. Fetch Farmer Data & Handle Auth (Strict Logic)
+  // 1. Fetch Farmer Data & Handle Auth (Demo Logic)
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession()
+        // DEMO: Check localStorage instead of Supabase Auth
+        const farmerId = localStorage.getItem("farmer_id")
 
-        if (!session) {
+        if (!farmerId) {
           navigate("/auth")
           return
         }
 
-        let { data: farmer, error } = await supabase
+        const { data: farmer, error } = await supabase
           .from('farmers')
           .select('*')
-          .eq('id', session.user.id)
+          .eq('id', farmerId)
           .single()
 
-        // Self-heal: If profile doesn't exist, create it
-        if (!farmer) {
-          console.log("Profile missing in Dashboard, creating now...")
-          const { data: newFarmer, error: insertError } = await supabase
-            .from('farmers')
-            .insert([
-              {
-                id: session.user.id,
-                name: "Farmer", // Default name
-                city: null,
-                state: null,
-                phone: null
-              }
-            ])
-            .select()
-            .single()
-
-          if (insertError) {
-            console.error("Dashboard auto-create profile error:", insertError)
-          } else {
-            farmer = newFarmer
-          }
+        if (error) {
+          console.error("Dashboard fetch error:", error)
+          // If error (e.g. invalid ID), redirect to auth
+          localStorage.removeItem("farmer_id")
+          navigate("/auth")
+          return
         }
 
         if (farmer) {
           setFarmerData({
-            name: farmer.name || "Farmer",
-            location: (farmer.city && farmer.state) ? `${farmer.city}, ${farmer.state}` : "Unknown Location",
-            currentCrop: "Wheat", // Default
-            farmSize: "5" // Default
-          })
-        } else {
-          // Fallback
-          setFarmerData({
-            name: "Farmer",
-            location: "India",
-            currentCrop: "Wheat",
-            farmSize: "--"
+            name: farmer.name,
+            location: `${farmer.city}, ${farmer.state}`,
+            currentCrop: "Wheat", // Hardcoded for demo if not in DB
+            farmSize: "5" // Hardcoded for demo if not in DB
           })
         }
       } catch (error) {
@@ -287,8 +263,8 @@ export function Dashboard() {
         transition={{ duration: 0.5, delay: 0.05 }}
       >
         <Card className={`border-2 ${topAction.type === 'urgent' ? 'bg-red-50 border-red-300' :
-            topAction.type === 'advisory' ? 'bg-amber-50 border-amber-300' :
-              'bg-green-50 border-green-300'
+          topAction.type === 'advisory' ? 'bg-amber-50 border-amber-300' :
+            'bg-green-50 border-green-300'
           }`}>
           <CardContent className="py-3 px-4">
             <div className="flex items-center justify-between">
@@ -575,10 +551,10 @@ export function Dashboard() {
                     <div className="flex flex-col items-center gap-1 pt-1">
                       <div
                         className={`h-3 w-3 rounded-full ${alert.type === "high"
-                            ? "bg-red-500 animate-pulse"
-                            : alert.type === "medium"
-                              ? "bg-yellow-500"
-                              : "bg-green-500"
+                          ? "bg-red-500 animate-pulse"
+                          : alert.type === "medium"
+                            ? "bg-yellow-500"
+                            : "bg-green-500"
                           }`}
                       />
                       {alert.type === "high" && (
