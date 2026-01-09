@@ -207,7 +207,7 @@ export function Community() {
 
     // Check if already liked
     const post = posts.find(p => p.id === postId)
-    const isLiked = post?.community_likes.some(l => l.farmer_id === currentFarmerId)
+    const isLiked = post?.post_likes.some(l => l.farmer_id === currentFarmerId)
 
     try {
       if (isLiked) {
