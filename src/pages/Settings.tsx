@@ -6,17 +6,21 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Switch } from "../components/ui/switch"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { useTranslation } from "react-i18next"
 
 export function Settings() {
   const [loading, setLoading] = useState(false)
+  const [saved, setSaved] = useState(false)
   const { t } = useTranslation()
 
   const handleSave = () => {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
     }, 1000)
   }
 
@@ -86,8 +90,8 @@ export function Settings() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handleSave} disabled={loading}>
-                {loading ? "Saving..." : "Save Changes"}
+              <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700">
+                {loading ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
               </Button>
             </CardFooter>
           </Card>

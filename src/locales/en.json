@@ -59,7 +59,51 @@
     "statistics": "Statistics",
     "thisMonth": "This Month",
     "lastMonth": "Last Month",
-    "growth": "Growth"
+    "growth": "Growth",
+    "todayPriority": "Today's Priority",
+    "takeAction": "Take Action",
+    "todaysIntelligence": "Today's Intelligence",
+    "explainDashboard": "Explain my dashboard",
+    "speaking": "Speaking...",
+    "weatherRisk": {
+      "title": "Weather Risk",
+      "impact": "Impact",
+      "source": "Source: IMD weather data",
+      "viewForecast": "View forecast"
+    },
+    "priceTrend": {
+      "title": "Price Trend",
+      "suggestedAction": "Suggested action",
+      "holdCrop": "Hold crop (prices rising)",
+      "sellNow": "Consider selling at current prices",
+      "bestSellWindow": "Best sell window",
+      "source": "Source: Govt. mandi data",
+      "seePredictions": "See predictions"
+    },
+    "latestAdvisory": {
+      "title": "Latest Advisory",
+      "markDone": "Mark Done",
+      "done": "Done",
+      "explain": "Explain this advisory",
+      "source": "Based on IMD weather & crop data"
+    },
+    "profitScore": {
+      "title": "Profit Score",
+      "goodPotential": "Good profit potential if current advisory is followed",
+      "moderatePotential": "Moderate profit potential - follow recommendations",
+      "lowPotential": "Low profit potential - immediate action needed",
+      "sinceLastWeek": "since last week",
+      "trySimulator": "Try What-If Simulator"
+    },
+    "alerts": {
+      "title": "Recent Alerts",
+      "takeAction": "Take action",
+      "addToLog": "Add to Farm Log"
+    },
+    "community": {
+      "join": "Join the Farmer Community",
+      "description": "See how other farmers are managing their crops in similar conditions"
+    }
   },
   "farmLog": {
     "title": "Farm Log",
@@ -238,6 +282,56 @@
       "crops": "Crops Tracked",
       "revenue": "Revenue Generated",
       "schemes": "Schemes Accessed"
+    }
+  },
+  "cropAdvisory": {
+    "title": "Crop Advisory",
+    "subtitle": "AI-powered personalized recommendations for your farm",
+    "selectCrop": "Select Crop",
+    "selectStage": "Growth Stage",
+    "summary": {
+      "crop": "Crop",
+      "stage": "Growth Stage",
+      "location": "Location",
+      "riskLevel": "Risk Level",
+      "nextAction": "Next Action",
+      "allCompleted": "All tasks completed"
+    },
+    "priority": {
+      "critical": "Critical",
+      "moderate": "Moderate",
+      "optional": "Optional"
+    },
+    "actions": {
+      "markDone": "Mark Done",
+      "completed": "Completed",
+      "remindMe": "Remind Me",
+      "addToLog": "Add to Farm Log",
+      "setReminder": "Set",
+      "readAloud": "Read aloud in",
+      "explain": "Explain this"
+    },
+    "cards": {
+      "sowing": "Sowing Advice",
+      "irrigation": "Irrigation",
+      "fertilizer": "Fertilizer",
+      "whyAiAdvice": "Why this advice? (AI-based)",
+      "reliabilityScore": "Reliability Score",
+      "reliabilityTooltip": "Reliability score indicates confidence based on historical data, weather patterns, and soil conditions",
+      "costImpact": "Cost Impact",
+      "yieldImpact": "Yield Impact",
+      "perAcre": "/acre"
+    },
+    "community": {
+      "seeOthers": "See how other farmers handled",
+      "stage": "stage"
+    },
+    "chat": {
+      "title": "Kisan Sahayak",
+      "online": "Online",
+      "placeholder": "Ask about your crop...",
+      "thinking": "Thinking...",
+      "welcome": "Namaste! I am your AI Crop Assistant. How can I help you today?"
     }
   }
 }
