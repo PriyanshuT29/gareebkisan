@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useNavigate, Link } from "react-router-dom"
-import { Tractor, ArrowRight, User, Loader2, Phone } from "lucide-react"
+import { Tractor, ArrowRight, User, Loader2, Phone, Mail, MapPin } from "lucide-react"
 import { supabase } from "../lib/supabase"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
@@ -14,6 +14,8 @@ export function Auth() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   // Form State
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [city, setCity] = useState("")
@@ -22,10 +24,11 @@ export function Auth() {
 
   // Check if already logged in
   useEffect(() => {
-    const farmerId = localStorage.getItem("farmer_id")
-    if (farmerId) {
-      navigate("/dashboard")
-    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate("/dashboard")
+      }
+    })
   }, [navigate])
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -34,35 +37,18 @@ export function Auth() {
     setError("")
 
     try {
-      console.log("Attempting login for:", phone)
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-      // 1. Find farmer by phone
-      const { data: farmers, error: fetchError } = await supabase
-        .from('farmers')
-        .select('*')
-        .eq('phone', phone)
+      if (error) throw error
 
-      if (fetchError) throw fetchError
-
-      // 2. Validate
-      const farmer = farmers?.[0]
-      if (!farmer) {
-        setError("Farmer not found. Please sign up.")
-        setIsLoading(false)
-        return
+      if (data.user) {
+        console.log("Login successful:", data.user)
+        localStorage.setItem("farmer_id", data.user.id)
+        navigate("/dashboard")
       }
-
-      if (farmer.name.toLowerCase().trim() !== name.toLowerCase().trim()) {
-        setError("Name does not match our records.")
-        setIsLoading(false)
-        return
-      }
-
-      // 3. Login Success
-      console.log("Login successful:", farmer)
-      localStorage.setItem("farmer_id", farmer.id)
-      navigate("/dashboard")
-
     } catch (err: any) {
       console.error("Login error:", err)
       setError(err.message || "Login failed")
@@ -77,46 +63,51 @@ export function Auth() {
     setError("")
 
     try {
-      console.log("Attempting signup for:", phone)
+      // 1. Create Supabase Auth User
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name: name,
+            phone: phone,
+          },
+        },
+      })
 
-      // 1. Check duplicate phone
-      const { data: existing, error: checkError } = await supabase
-        .from('farmers')
-        .select('id')
-        .eq('phone', phone)
-        .maybeSingle()
+      if (authError) throw authError
 
-      if (checkError) throw checkError
-
-      if (existing) {
-        setError("Phone number already registered. Please login.")
-        setIsLoading(false)
-        return
+      if (!authData.user) {
+        throw new Error("Failed to create account")
       }
 
-      // 2. Create Farmer
-      const newId = crypto.randomUUID()
-      const { data: newFarmer, error: insertError } = await supabase
-        .from('farmers')
+      const userId = authData.user.id
+
+      // 2. Create Farmer Profile linked to Auth User
+      const { error: insertError } = await supabase
+        .from("farmers")
         .insert([
           {
-            id: newId,
+            id: userId,
             name: name,
             phone: phone,
             city: city,
-            state: state
-          }
+            state: state,
+          },
         ])
-        .select()
         .single()
 
-      if (insertError) throw insertError
+      if (insertError) {
+        // If profile creation fails, we might create an orphan auth user.
+        // In a real app we'd roll back or handle this.
+        console.error("Error creating profile:", insertError)
+        throw insertError
+      }
 
       // 3. Signup Success
-      console.log("Signup successful:", newFarmer)
-      localStorage.setItem("farmer_id", newFarmer.id)
+      console.log("Signup successful")
+      localStorage.setItem("farmer_id", userId)
       navigate("/dashboard")
-
     } catch (err: any) {
       console.error("Signup error:", err)
       setError(err.message || "Signup failed")
@@ -184,7 +175,7 @@ export function Auth() {
                 <CardHeader className="space-y-1">
                   <CardTitle className="text-2xl font-bold text-center">{t('dashboard.welcome')}</CardTitle>
                   <CardDescription className="text-center">
-                    Enter your details to access your farm dashboard
+                    Enter your email to access your farm dashboard
                   </CardDescription>
                 </CardHeader>
                 <form onSubmit={handleLogin}>
@@ -195,37 +186,34 @@ export function Auth() {
                       </div>
                     )}
                     <div className="space-y-2">
-                      <label className="text-sm font-medium leading-none" htmlFor="login-name">
-                        Full Name
+                      <label className="text-sm font-medium leading-none" htmlFor="login-email">
+                        Email
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
-                          id="login-name"
-                          placeholder="Ram Singh"
+                          id="login-email"
+                          type="email"
+                          placeholder="name@example.com"
                           className="pl-10"
                           required
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium leading-none" htmlFor="login-phone">
-                        Phone Number
+                      <label className="text-sm font-medium leading-none" htmlFor="login-password">
+                        Password
                       </label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          id="login-phone"
-                          type="tel"
-                          placeholder="9876543210"
-                          className="pl-10"
-                          required
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-                      </div>
+                      <Input
+                        id="login-password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
                     </div>
                   </CardContent>
                   <CardFooter className="flex-col gap-4">
@@ -261,6 +249,39 @@ export function Auth() {
                         {error}
                       </div>
                     )}
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-email">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-password">
+                        Password
+                      </label>
+                      <Input
+                        id="signup-password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+
                     <div className="space-y-2">
                       <label className="text-sm font-medium leading-none" htmlFor="signup-name">
                         {t('auth.name')}
@@ -301,13 +322,17 @@ export function Auth() {
                         <label className="text-sm font-medium leading-none" htmlFor="city">
                           City
                         </label>
-                        <Input
-                          id="city"
-                          placeholder="Bhopal"
-                          required
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                        />
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="city"
+                            placeholder="Bhopal"
+                            className="pl-10"
+                            required
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                          />
+                        </div>
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-medium leading-none" htmlFor="state">
