@@ -22,14 +22,14 @@ export function MandiPrices() {
   const [timeframe, setTimeframe] = useState("7")
   const [loading, setLoading] = useState(false)
   const [currentPrice, setCurrentPrice] = useState(mockPricePrediction.currentPrice)
-  const [chartData, setChartData] = useState<Array<{date: string, price: number}>>([])
+  const [chartData, setChartData] = useState<Array<{ date: string, price: number }>>([])
   const [markets, setMarkets] = useState<string[]>(["All Markets"])
   const [priceChangePercent, setPriceChangePercent] = useState("+10.2")
   const [statistics, setStatistics] = useState<any>(null)
   const [avgPrice, setAvgPrice] = useState(0)
-  
+
   const crops = ["Wheat", "Rice", "Maize", "Bajra", "Jowar", "Barley", "Gram", "Tur (Arhar)", "Moong", "Urad", "Groundnut", "Soyabean", "Sunflower", "Cotton", "Sugarcane"]
-  
+
   // Fetch price data when crop/mandi/timeframe changes
   useEffect(() => {
     const fetchPriceData = async () => {
@@ -40,20 +40,20 @@ export function MandiPrices() {
         if (latestPrice) {
           setCurrentPrice(latestPrice)
         }
-        
+
         // Get price trend
         const days = parseInt(timeframe)
         const trend = await getPriceTrend(selectedCrop, days)
-        
+
         if (trend.length > 0) {
           setChartData(trend)
-          
+
           // Calculate price change
           const oldPrice = trend[0].price
           const newPrice = trend[trend.length - 1].price
           const change = ((newPrice - oldPrice) / oldPrice * 100).toFixed(1)
           setPriceChangePercent(change)
-          
+
           // Calculate average
           const avg = trend.reduce((sum, item) => sum + item.price, 0) / trend.length
           setAvgPrice(avg)
@@ -62,9 +62,9 @@ export function MandiPrices() {
           const simulatedTrend = generateSimulatedTrend(days, latestPrice || currentPrice)
           setChartData(simulatedTrend)
         }
-        
+
         // Get statistics
-        const stats = await getPriceStatistics(selectedCrop, days)
+        const stats = await getPriceStatistics(selectedCrop, selectedMandi === "All Markets" ? undefined : selectedMandi)
         if (stats) {
           setStatistics(stats)
         }
@@ -77,10 +77,10 @@ export function MandiPrices() {
         setLoading(false)
       }
     }
-    
+
     fetchPriceData()
   }, [selectedCrop, selectedMandi, timeframe])
-  
+
   // Fetch available markets when crop changes
   useEffect(() => {
     const fetchAvailableMarkets = async () => {
@@ -93,10 +93,10 @@ export function MandiPrices() {
         console.error("Error fetching markets:", error)
       }
     }
-    
+
     fetchAvailableMarkets()
   }, [selectedCrop])
-  
+
   // Generate simulated trend as fallback
   const generateSimulatedTrend = (days: number, basePrice: number) => {
     const data = []
@@ -117,14 +117,14 @@ export function MandiPrices() {
   const displayChartData = getChartData()
   const maxPrice = displayChartData.length > 0 ? Math.max(...displayChartData.map((d) => d.price)) : currentPrice
   const minPrice = displayChartData.length > 0 ? Math.min(...displayChartData.map((d) => d.price)) : currentPrice
-  
+
   const handleRefresh = () => {
     setSelectedCrop(prev => prev) // Trigger useEffect
   }
 
   const recommendation = parseFloat(priceChangePercent) < 0 ? "sell" : "hold"
-  const volatility = statistics 
-    ? (statistics.volatility > 15 ? "high" : statistics.volatility > 8 ? "medium" : "low")
+  const volatility = statistics
+    ? statistics.volatility
     : mockPricePrediction.volatility
   const bestWindow = {
     start: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
@@ -313,7 +313,7 @@ export function MandiPrices() {
                 </div>
                 <div className="rounded-lg bg-green-100 p-3 border border-green-200">
                   <p className="text-sm text-green-900">
-                    {parseFloat(priceChangePercent) >= 0 
+                    {parseFloat(priceChangePercent) >= 0
                       ? "Prices are trending upward. Optimal selling window is in 10-15 days."
                       : "Prices are stable. Consider selling within current window."}
                   </p>
@@ -366,34 +366,34 @@ export function MandiPrices() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-                <Badge
-                  variant={
-                    volatility === "high"
-                      ? "danger"
-                      : volatility === "medium"
+              <Badge
+                variant={
+                  volatility === "high"
+                    ? "danger"
+                    : volatility === "medium"
                       ? "warning"
                       : "success"
-                  }
-                  className="text-sm"
-                >
-                  {volatility.toUpperCase()}
-                </Badge>
-                <p className="text-sm text-muted-foreground mt-3">
-                  Price range: ₹{minPrice.toLocaleString()} - ₹{maxPrice.toLocaleString()}
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {volatility === "high"
-                    ? "Prices may fluctuate significantly. Monitor daily."
-                    : volatility === "medium"
+                }
+                className="text-sm"
+              >
+                {volatility.toUpperCase()}
+              </Badge>
+              <p className="text-sm text-muted-foreground mt-3">
+                Price range: ₹{minPrice.toLocaleString()} - ₹{maxPrice.toLocaleString()}
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {volatility === "high"
+                  ? "Prices may fluctuate significantly. Monitor daily."
+                  : volatility === "medium"
                     ? "Moderate price movements expected."
                     : "Stable prices with minimal fluctuations."}
+              </p>
+              {statistics && (
+                <p className="text-xs text-primary mt-2">
+                  Average: ₹{statistics.average.toLocaleString()} • Source: Govt. of India
                 </p>
-                {statistics && (
-                  <p className="text-xs text-primary mt-2">
-                    Average: ₹{statistics.average.toLocaleString()} • Source: Govt. of India
-                  </p>
-                )}
-              </CardContent>
+              )}
+            </CardContent>
           </Card>
         </motion.div>
       </div>
