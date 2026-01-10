@@ -22,6 +22,8 @@
 ### Key Integration Points
 - **Weather**: OpenWeather API integration in `src/services/weatherService.ts` (API key embedded)
 - **Mandi Prices**: Government of India API in `src/services/mandiService.ts` (API key: 579b464db66ec23bdd00000103b61ae65770414643985f03e5f9bbeb)
+- **AI/ML**: Google Gemini AI (`@google/generative-ai`) for crop advisory in `src/pages/CropAdvisory.tsx` (uses model: `gemini-1.5-flash-latest`, API key: AIzaSyACMEIJf8h-KI7jo3lZcr2oR3BQVzAnVgE)
+- **Database (Alternative)**: Supabase client configured in `src/lib/supabase.ts` (requires env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) - currently not actively used
 - **i18n**: i18next with 10 languages, auto-detection, localStorage persistence
 - **Frontend-Backend**: CORS configured for `http://localhost:5173` (frontend) to `http://localhost:5000` (backend)
 
@@ -40,12 +42,17 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 ```
 
 ### Environment Setup
-- **Frontend**: No `.env` file currently needed (API key hardcoded in weatherService.ts - consider moving to env)
+- **Frontend**: Vite env vars use `VITE_` prefix (e.g., `VITE_SUPABASE_URL`)
+  - Vite config at root (`vite.config.ts`) - **no path aliases configured**, use relative imports
+  - Optional: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (for Supabase integration)
+  - Currently API keys hardcoded in service files (weatherService.ts, CropAdvisory.tsx) - **should be moved to env**
 - **Backend**: Copy `server/.env.example` to `server/.env` and configure:
   - `MONGODB_URI`: MongoDB connection (local or Atlas)
   - `JWT_SECRET` and `JWT_REFRESH_SECRET`: Generate secure random strings
   - `CORS_ORIGIN`: Frontend URL (default: `http://localhost:5173`)
+  - `NODE_ENV`: `development` or `production` (affects logging and error responses)
   - Optional: `CLOUDINARY_*` for image uploads, `WEATHER_API_KEY`, `MANDI_API_KEY`
+  - Rate limiting: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX_REQUESTS`
 
 ### Database
 - MongoDB connection in `server/src/config/database.ts`
@@ -68,6 +75,8 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
    - Use `class-variance-authority` (CVA) for variant-based styling
    - Export both component and variant types
    - Example: `Badge`, `Button`, `Card` components
+   - Always forward refs for compatibility with Radix UI primitives
+   - Component structure: define variants with CVA, extend props with `VariantProps`, use `cn()` in render
 
 3. **Internationalization**:
    - Use `useTranslation()` hook in components:
@@ -76,15 +85,24 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
      const { t } = useTranslation()
      return <h1>{t('dashboard.welcome')}</h1>
      ```
-   - Translation keys in `src/locales/{lang}.json` (10 languages)
+   - Translation keys in `src/locales/{lang}.json` (10 languages: en, hi, pa, mr, ta, te, gu, bn, kn, or)
    - Language switcher via `LanguageSwitcher.tsx` component
+   - i18n initialized in `src/i18n.ts` with LanguageDetector and localStorage persistence
+   - Language preference read from localStorage: `localStorage.getItem('language') || 'en'`
 
 4. **Color Palette** (nature-inspired):
    - Primary: `#22c55e` (green) - used for CTAs, active states
    - Secondary: Brown/yellow earth tones
    - Defined in `tailwind.config.js` with HSL CSS variables
+   - Components use shadow-md/shadow-lg for depth, rounded-xl for corners
 
-5. **Data Fetching**:
+5. **Routing & Navigation**:
+   - All dashboard routes nested under `/dashboard` path
+   - `DashboardLayout` is the parent route element (wraps with navbar + sidebar)
+   - Route structure: `<Route path="/dashboard" element={<DashboardLayout />}>` with child `index` and named routes
+   - 404s redirect to `/` via catch-all route: `<Route path="*" element={<Navigate to="/" replace />} />`
+
+6. **Data Fetching**:
    - Mock data in `src/data/mockData.ts` with TypeScript interfaces
    - Real API integration via `src/services/*` (weatherService as example)
    - **TODO**: Replace mock data imports with API calls when backend is ready
@@ -153,11 +171,12 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 ## Known Gotchas
 
 1. **Mock Data**: Frontend currently uses mock data. Check `src/data/mockData.ts` imports in pages before assuming real API integration.
-2. **Weather API Key**: Hardcoded in `src/services/weatherService.ts` - should be moved to environment variable.
+2. **API Keys Hardcoded**: Weather API key in `src/services/weatherService.ts` and Gemini AI key in `src/pages/CropAdvisory.tsx` - **should be moved to environment variables**.
 3. **MongoDB Connection**: Backend will exit with code 1 if MongoDB connection fails on startup.
 4. **Language Persistence**: Language preference stored in `localStorage`, ensure to update on language change.
-5. **Path Aliases**: Not configured. Use relative imports (`../../lib/utils`).
+5. **Path Aliases**: Not configured in Vite. Always use relative imports (`../../lib/utils`).
 6. **Dual Package Names**: Project referred to as both "KrishiBandhu" and "Gareeb Kisan" - maintain consistency in new code.
+7. **Supabase Setup**: Client configured but not actively used - requires `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` env vars if needed.
 
 ## Testing & Build
 
@@ -173,3 +192,14 @@ npm start  # Run compiled JS
 ```
 
 No test suites currently configured (`npm test` script exists but not implemented).
+
+## Multi-Package Structure
+
+This is a **monorepo-style workspace** with two separate packages:
+- Root package (`/`) - Frontend React application
+- Server package (`/server`) - Backend Express API
+
+Each has its own `package.json`, `tsconfig.json`, and `node_modules`. When installing dependencies:
+- Frontend deps: Run `npm install` in root directory
+- Backend deps: Run `npm install` in `server/` directory
+- No shared dependencies or workspaces configuration (yet)

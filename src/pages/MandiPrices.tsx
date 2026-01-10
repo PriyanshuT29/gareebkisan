@@ -27,6 +27,7 @@ export function MandiPrices() {
   const [priceChangePercent, setPriceChangePercent] = useState("+10.2")
   const [statistics, setStatistics] = useState<any>(null)
   const [avgPrice, setAvgPrice] = useState(0)
+  const [dataWarning, setDataWarning] = useState<string | null>(null)
 
   const crops = ["Wheat", "Rice", "Maize", "Bajra", "Jowar", "Barley", "Gram", "Tur (Arhar)", "Moong", "Urad", "Groundnut", "Soyabean", "Sunflower", "Cotton", "Sugarcane"]
 
@@ -34,45 +35,63 @@ export function MandiPrices() {
   useEffect(() => {
     const fetchPriceData = async () => {
       setLoading(true)
+      setDataWarning(null) // Clear previous warnings
       try {
-        // Get latest price
+        // Get latest price as base for forecast
         const latestPrice = await getLatestPrice(selectedCrop)
+        const basePrice = latestPrice || currentPrice
+        
         if (latestPrice) {
           setCurrentPrice(latestPrice)
         }
 
-        // Get price trend
+        // Get historical price trend for context
         const days = parseInt(timeframe)
-        const trend = await getPriceTrend(selectedCrop, days)
+        const historicalTrend = await getPriceTrend(selectedCrop, Math.min(days * 2, 60))
 
-        if (trend.length > 0) {
-          setChartData(trend)
+        // Generate complete forecast with past context, current, and future predictions
+        const forecastData = generateCompleteForecast(days, basePrice, historicalTrend)
+        
+        setChartData(forecastData)
 
-          // Calculate price change
-          const oldPrice = trend[0].price
-          const newPrice = trend[trend.length - 1].price
-          const change = ((newPrice - oldPrice) / oldPrice * 100).toFixed(1)
+        // Calculate price change from start to end of forecast period
+        if (forecastData.length > 1) {
+          const firstPrice = forecastData[0].price
+          const lastPrice = forecastData[forecastData.length - 1].price
+          const change = ((lastPrice - firstPrice) / firstPrice * 100).toFixed(1)
           setPriceChangePercent(change)
 
-          // Calculate average
-          const avg = trend.reduce((sum, item) => sum + item.price, 0) / trend.length
+          // Calculate average forecast price
+          const avg = forecastData.reduce((sum, item) => sum + item.price, 0) / forecastData.length
           setAvgPrice(avg)
-        } else {
-          // Fallback to simulated data
-          const simulatedTrend = generateSimulatedTrend(days, latestPrice || currentPrice)
-          setChartData(simulatedTrend)
         }
 
-        // Get statistics
+        // Get statistics from historical data
         const stats = await getPriceStatistics(selectedCrop, selectedMandi === "All Markets" ? undefined : selectedMandi)
         if (stats) {
           setStatistics(stats)
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching price data:", error)
-        // Fallback to simulated data
-        const simulatedTrend = generateSimulatedTrend(parseInt(timeframe), currentPrice)
-        setChartData(simulatedTrend)
+        
+        // Check if we're using stale cached data
+        if (error?.isStale || (error?.message && error.message.includes('stale'))) {
+          setDataWarning("⚠️ Showing cached data. Real-time prices may be delayed.")
+        } else {
+          setDataWarning("⚠️ Unable to fetch latest prices. Displaying forecasted data.")
+        }
+        
+        // Fallback to complete forecast without historical context
+        const forecastData = generateCompleteForecast(parseInt(timeframe), currentPrice)
+        setChartData(forecastData)
+        
+        // Calculate price change for fallback data
+        if (forecastData.length > 1) {
+          const firstPrice = forecastData[0].price
+          const lastPrice = forecastData[forecastData.length - 1].price
+          const change = ((lastPrice - firstPrice) / firstPrice * 100).toFixed(1)
+          setPriceChangePercent(change)
+        }
       } finally {
         setLoading(false)
       }
@@ -97,16 +116,111 @@ export function MandiPrices() {
     fetchAvailableMarkets()
   }, [selectedCrop])
 
-  // Generate simulated trend as fallback
-  const generateSimulatedTrend = (days: number, basePrice: number) => {
-    const data = []
-    for (let i = 0; i < days; i++) {
-      const variation = (Math.random() - 0.5) * 200
+  // Generate forecast with historical context, current price, and future predictions
+  const generateCompleteForecast = (
+    days: number, 
+    basePrice: number,
+    historicalTrend?: Array<{ date: string; price: number }>
+  ) => {
+    const data: Array<{ date: string; price: number }> = []
+    const today = new Date()
+    today.setHours(0, 0, 0, 0) // Normalize to start of day
+    
+    // Determine past/future distribution based on total days
+    let pastDays: number
+    let futureDays: number
+    
+    if (days === 7) {
+      pastDays = 2
+      futureDays = 4
+    } else if (days === 15) {
+      pastDays = 4
+      futureDays = 10
+    } else if (days === 30) {
+      pastDays = 7
+      futureDays = 22
+    } else {
+      // Default distribution for other values
+      pastDays = Math.floor(days * 0.25)
+      futureDays = days - pastDays - 1
+    }
+    
+    // 1. PAST DAYS - Historical Context
+    for (let i = pastDays; i >= 1; i--) {
+      const pastDate = new Date(today)
+      pastDate.setDate(today.getDate() - i)
+      
+      let historicalPrice: number
+      
+      // Try to use real historical data if available
+      if (historicalTrend && historicalTrend.length > 0) {
+        const historicalRecord = historicalTrend.find(record => {
+          const recordDate = new Date(record.date)
+          return recordDate.toDateString() === pastDate.toDateString()
+        })
+        
+        if (historicalRecord) {
+          historicalPrice = historicalRecord.price
+        } else {
+          // Generate realistic historical variation
+          const variationPercent = (Math.random() - 0.5) * 0.08 // ±4% variation
+          historicalPrice = Math.round(basePrice * (1 + variationPercent))
+        }
+      } else {
+        // No historical data - simulate with small variations
+        const variationPercent = (Math.random() - 0.5) * 0.08
+        historicalPrice = Math.round(basePrice * (1 + variationPercent))
+      }
+      
       data.push({
-        date: new Date(Date.now() - (days - i - 1) * 24 * 60 * 60 * 1000).toISOString(),
-        price: Math.round(basePrice + variation)
+        date: pastDate.toISOString(),
+        price: historicalPrice
       })
     }
+    
+    // 2. CURRENT DAY - Today's Base Price
+    data.push({
+      date: today.toISOString(),
+      price: basePrice
+    })
+    
+    // 3. FUTURE DAYS - Predictions
+    // Calculate trend from recent past data
+    let dailyTrend = 0
+    let volatility = basePrice * 0.05 // Default 5% volatility
+    
+    if (data.length >= 2) {
+      // Calculate trend from past data
+      const recentPrices = data.slice(-Math.min(3, data.length))
+      const priceChange = recentPrices[recentPrices.length - 1].price - recentPrices[0].price
+      dailyTrend = priceChange / recentPrices.length
+      
+      // Calculate volatility
+      const prices = data.map(d => d.price)
+      const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length
+      const variance = prices.reduce((sum, price) => sum + Math.pow(price - avgPrice, 2), 0) / prices.length
+      volatility = Math.sqrt(variance)
+    }
+    
+    for (let i = 1; i <= futureDays; i++) {
+      const futureDate = new Date(today)
+      futureDate.setDate(today.getDate() + i)
+      
+      // Generate forecast with trend continuation and increasing uncertainty
+      const dayProgress = i / futureDays
+      const trendComponent = dailyTrend * i
+      const uncertaintyMultiplier = 1 + (dayProgress * 0.5) // Uncertainty increases over time
+      const randomComponent = (Math.random() - 0.5) * volatility * uncertaintyMultiplier
+      const seasonalFactor = Math.sin(i / 7) * (basePrice * 0.02) // Slight weekly cycle
+      
+      const predictedPrice = Math.round(basePrice + trendComponent + randomComponent + seasonalFactor)
+      
+      data.push({
+        date: futureDate.toISOString(),
+        price: Math.max(predictedPrice, basePrice * 0.75) // Floor at 75% of base price
+      })
+    }
+    
     return data
   }
 
@@ -117,6 +231,16 @@ export function MandiPrices() {
   const displayChartData = getChartData()
   const maxPrice = displayChartData.length > 0 ? Math.max(...displayChartData.map((d) => d.price)) : currentPrice
   const minPrice = displayChartData.length > 0 ? Math.min(...displayChartData.map((d) => d.price)) : currentPrice
+  
+  // Find today's date in chart data for visual marker
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const todayISO = today.toISOString()
+  const todayDataPoint = displayChartData.find(d => {
+    const dataDate = new Date(d.date)
+    dataDate.setHours(0, 0, 0, 0)
+    return dataDate.toISOString() === todayISO
+  })
 
   const handleRefresh = () => {
     setSelectedCrop(prev => prev) // Trigger useEffect
@@ -144,6 +268,21 @@ export function MandiPrices() {
           AI-powered price forecasts to help you decide when and where to sell
         </p>
       </motion.div>
+
+      {/* Data Warning Banner */}
+      {dataWarning && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg"
+        >
+          <div className="flex items-center gap-2">
+            <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
+            <p className="text-sm text-yellow-800 font-medium">{dataWarning}</p>
+          </div>
+        </motion.div>
+      )}
 
       {/* Selectors */}
       <motion.div
@@ -278,6 +417,22 @@ export function MandiPrices() {
                           strokeDasharray="3 3"
                           label={{ value: "Average", position: "right" }}
                         />
+                        {/* Visual marker for "today" */}
+                        {todayDataPoint && (
+                          <ReferenceLine
+                            x={todayDataPoint.date}
+                            stroke="#f59e0b"
+                            strokeWidth={2}
+                            strokeDasharray="5 5"
+                            label={{ 
+                              value: "Today", 
+                              position: "top",
+                              fill: "#f59e0b",
+                              fontSize: 12,
+                              fontWeight: "bold"
+                            }}
+                          />
+                        )}
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
