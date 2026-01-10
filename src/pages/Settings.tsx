@@ -1,27 +1,89 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { User, Bell, Globe, Shield } from "lucide-react"
+import { User, Bell, Globe, Shield, Loader2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Switch } from "../components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
+
 import { LanguageSwitcher } from "../components/LanguageSwitcher"
 import { useTranslation } from "react-i18next"
+import { supabase } from "../lib/supabase"
+import { useNavigate } from "react-router-dom"
 
 export function Settings() {
-  const [loading, setLoading] = useState(false)
-  const [saved, setSaved] = useState(false)
+  const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const handleSave = () => {
+  const [loading, setLoading] = useState(false)
+  const [dataLoading, setDataLoading] = useState(true)
+  const [saved, setSaved] = useState(false)
+
+  // Profile State
+  const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
+  const [city, setCity] = useState("") // Using as District
+  const [state, setState] = useState("")
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const farmerId = localStorage.getItem("farmer_id")
+      if (!farmerId) {
+        navigate("/auth")
+        return
+      }
+
+      const { data, error } = await supabase
+        .from('farmers')
+        .select('*')
+        .eq('id', farmerId)
+        .single()
+
+      if (!error && data) {
+        setName(data.name || "")
+        setPhone(data.phone || "")
+        setCity(data.city || "")
+        setState(data.state || "")
+      }
+      setDataLoading(false)
+    }
+
+    fetchProfile()
+  }, [navigate])
+
+
+  const handleSave = async () => {
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
-    }, 1000)
+    const farmerId = localStorage.getItem("farmer_id")
+
+    if (farmerId) {
+      const { error } = await supabase
+        .from('farmers')
+        .update({
+          name,
+          phone,
+          city,
+          state
+        })
+        .eq('id', farmerId)
+
+      if (error) {
+        console.error("Error updating profile:", error)
+      } else {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 2000)
+      }
+    }
+    setLoading(false)
+  }
+
+  if (dataLoading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
   }
 
   return (
@@ -59,39 +121,50 @@ export function Settings() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Full Name</label>
-                  <Input defaultValue="Ram Singh" />
+                  <Input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ram Singh"
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Phone Number</label>
-                  <Input defaultValue="+91 98765 43210" />
+                  <Input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="9876543210"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Email</label>
-                  <Input defaultValue="ram.singh@example.com" />
+                  <label className="text-sm font-medium">City / District</label>
+                  <Input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="Indore"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Farm Location (District)</label>
-                  <Select defaultValue="indore">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select district" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="indore">Indore</SelectItem>
-                      <SelectItem value="bhopal">Bhopal</SelectItem>
-                      <SelectItem value="ujjain">Ujjain</SelectItem>
-                      <SelectItem value="jabalpur">Jabalpur</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Farm Size (Acres)</label>
-                  <Input type="number" defaultValue="5" />
+                  <label className="text-sm font-medium">State</label>
+                  <Input
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    placeholder="Madhya Pradesh"
+                  />
                 </div>
               </div>
             </CardContent>
             <CardFooter>
               <Button onClick={handleSave} disabled={loading} className="bg-green-600 hover:bg-green-700">
-                {loading ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : saved ? (
+                  "✓ Saved!"
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </CardFooter>
           </Card>

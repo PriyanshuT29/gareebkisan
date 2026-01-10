@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useNavigate, Link } from "react-router-dom"
-import { Tractor, ArrowRight, User, Loader2, Mail } from "lucide-react"
+import { Tractor, ArrowRight, User, Loader2, Phone, Mail, MapPin } from "lucide-react"
 import { supabase } from "../lib/supabase"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
@@ -13,134 +13,226 @@ export function Auth() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
 
-  // Auth State
-  // Auth State
+  // Form State
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
   const [city, setCity] = useState("")
   const [state, setState] = useState("")
-  const [linkSent, setLinkSent] = useState(false)
-  const [activeTab, setActiveTab] = useState("login")
+  const [error, setError] = useState("")
 
-  const checkAndCreateProfile = async (userId: string, userMetadata: any = {}) => {
-    try {
-      // Check/Create Profile
-      const { data: existingFarmer, error: fetchError } = await supabase
-        .from('farmers')
-        .select('*')
-        .eq('id', userId)
-        .single()
+  // Password Reset State
+  const [showResetPassword, setShowResetPassword] = useState(false)
+  const [resetPhone, setResetPhone] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [resetSuccess, setResetSuccess] = useState("")
 
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        console.error("Error fetching profile:", fetchError)
-      }
-
-      if (existingFarmer) {
-        console.log("Farmer exists:", existingFarmer)
-      } else {
-        console.log("Creating new farmer profile with metadata:", userMetadata)
-
-        // Prioritize metadata (from signup), then state (if still active), then defaults
-        const newName = userMetadata?.full_name || name || "Farmer"
-        const newCity = userMetadata?.city || city || null
-        const newState = userMetadata?.state || state || null
-
-        const { error: insertError } = await supabase
-          .from('farmers')
-          .insert([
-            {
-              id: userId,
-              name: newName,
-              city: newCity,
-              state: newState,
-              phone: null
-            }
-          ])
-
-        if (insertError) {
-          console.error("Error inserting farmer profile:", insertError)
-          throw insertError
-        }
-        console.log("New farmer profile created")
-      }
-      return true
-    } catch (error) {
-      console.error("Error checking/creating profile:", error)
-      return false
-    }
-  }
-
+  // Check if already logged in
   useEffect(() => {
-    // Check initial session
     const checkSession = async () => {
+      const storedId = localStorage.getItem("farmer_id")
       const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        console.log("Found existing session, checking profile...")
-        await checkAndCreateProfile(session.user.id, session.user.user_metadata)
+
+      if (storedId || session) {
         navigate("/dashboard")
       }
     }
-
     checkSession()
+  }, [navigate])
 
-    // Listen for auth changes (Magic Link callback)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state change:", event, session?.user?.id)
-      if (event === 'SIGNED_IN' && session) {
-        console.log("User signed in via Magic Link/OTP, checking profile...")
-        await checkAndCreateProfile(session.user.id)
-        navigate("/dashboard")
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [navigate, name]) // name dependency is tricky but mostly fine as it's for profile creation
-
-  const handleGoogleSignIn = () => {
-    setIsGoogleLoading(true)
-    // Simulate Google Sign-In
-    setTimeout(() => {
-      setIsGoogleLoading(false)
-      navigate("/dashboard")
-    }, 1500)
-  }
-
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError("")
+
     try {
-      console.log("Sending Magic Link to:", email)
+      // 1. Custom Table Login (Bypasses Supabase Auth Confirmation)
+      const { data: farmer, error: fetchError } = await supabase
+        .from('farmers')
+        .select('*')
+        .eq('email', email)
+        .single()
 
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email: email,
-        options: {
-          shouldCreateUser: activeTab === "signup",
-          emailRedirectTo: window.location.origin,
-          data: {
-            full_name: name,
-            city: city,
-            state: state,
-            // phone: null // We aren't collecting phone currently
-          }
-        }
-      })
-
-      console.log("SignInWithOtp result:", { data, error })
-
-      if (error) {
-        console.error("Supabase sending Magic Link error details:", error)
-        throw error
+      if (fetchError || !farmer) {
+        setError("Email not registered. Please sign up first.")
+        setIsLoading(false)
+        return
       }
 
-      setLinkSent(true)
-      console.log("Magic Link sent successfully")
-    } catch (error: any) {
-      console.error("Error sending Magic Link:", error.message || error)
+      // 2. Validate Password (Plain text check as per request)
+      if (farmer.password !== password) {
+        setError("Incorrect password.")
+        const shouldShowReset = window.confirm("Incorrect password. Would you like to reset it?")
+        if (shouldShowReset) {
+          setShowResetPassword(true)
+        }
+        setIsLoading(false)
+        return
+      }
+
+      // 3. Login Success
+      console.log("Login successful:", farmer)
+      localStorage.setItem("farmer_id", farmer.id)
+      navigate("/dashboard")
+
+    } catch (err: any) {
+      console.error("Login error:", err)
+      setError(err.message || "Login failed")
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
+
+    try {
+      // 1. Check if email already exists in our table
+      const { data: existingUser } = await supabase
+        .from('farmers')
+        .select('id')
+        .eq('email', email)
+        .single()
+
+      if (existingUser) {
+        throw new Error("Email already registered. Please login.")
+      }
+
+      // 2. Create Supabase Auth User to generating a Valid ID
+      // This step is CRITICAL to satisfy the foreign key constraint on 'farmers.id'
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      })
+
+      if (authError) {
+        // If user exists in Auth but not in Farmers (rare edge case), we might still want to proceed if we can get the ID.
+        // unlikely given step 1 check, unless manual DB manipulation.
+        throw authError
+      }
+
+      if (!authData.user) {
+        throw new Error("Failed to create account credential.")
+      }
+
+      const newUserId = authData.user.id
+
+      // 3. Insert into Farmers Table
+      // We use the ID from step 2 to satisfy FK.
+      // We store the password in plain text as requested for the custom login flow.
+      const { error: insertError } = await supabase
+        .from("farmers")
+        .insert([
+          {
+            id: newUserId,
+            email: email,
+            password: password,
+            name: name,
+            phone: phone,
+            city: city,
+            state: state,
+          },
+        ])
+        .single()
+
+      if (insertError) {
+        console.error("Error creating profile:", insertError)
+        throw insertError
+      }
+
+      // 4. Signup Success -> Auto Login
+      console.log("Signup successful")
+      localStorage.setItem("farmer_id", newUserId)
+      navigate("/dashboard")
+
+    } catch (err: any) {
+      console.error("Signup error:", err)
+      setError(err.message || "Signup failed")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
+    setResetSuccess("")
+
+    try {
+      // Verify user by Email and Phone
+      const { data: farmer, error: fetchError } = await supabase
+        .from('farmers')
+        .select('id')
+        .eq('email', email)
+        .eq('phone', resetPhone)
+        .single()
+
+      if (fetchError || !farmer) {
+        throw new Error("Details do not match our records.")
+      }
+
+      // Update Password
+      const { error: updateError } = await supabase
+        .from('farmers')
+        .update({ password: newPassword })
+        .eq('id', farmer.id)
+
+      if (updateError) throw updateError
+
+      setResetSuccess("Password updated successfully! Please login.")
+      setTimeout(() => {
+        setShowResetPassword(false)
+        setPassword("")
+      }, 2000)
+
+    } catch (err: any) {
+      setError(err.message || "Failed to reset password")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (showResetPassword) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6 bg-muted/20">
+        <Card className="w-full max-w-md border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle>Reset Password</CardTitle>
+            <CardDescription>Verify your identity to set a new password</CardDescription>
+          </CardHeader>
+          <form onSubmit={handleResetPassword}>
+            <CardContent className="space-y-4">
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {resetSuccess && <div className="text-green-500 text-sm">{resetSuccess}</div>}
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Email</label>
+                <Input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Phone Number (Validation)</label>
+                <Input value={resetPhone} onChange={(e) => setResetPhone(e.target.value)} required placeholder="Enter stored phone number" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">New Password</label>
+                <Input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required type="password" />
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Button variant="ghost" onClick={() => setShowResetPassword(false)}>Back to Login</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : "Reset Password"}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -191,7 +283,7 @@ export function Auth() {
             <span>KrishiBandhu</span>
           </div>
 
-          <Tabs defaultValue="login" className="w-full" onValueChange={setActiveTab}>
+          <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
               <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
               <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
@@ -200,47 +292,56 @@ export function Auth() {
             <TabsContent value="login">
               <Card className="border-0 shadow-lg">
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-2xl font-bold text-center">{linkSent ? "Check your email" : t('dashboard.welcome')}</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-center">{t('dashboard.welcome')}</CardTitle>
                   <CardDescription className="text-center">
-                    {linkSent ? "We've sent you a login link." : "Enter your email to access your farm dashboard"}
+                    Enter your email to access your farm dashboard
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={handleSendOtp}>
+                <form onSubmit={handleLogin}>
                   <CardContent className="space-y-4">
-                    {!linkSent ? (
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium leading-none" htmlFor="email">
-                          Email Address
-                        </label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="email"
-                            type="email"
-                            placeholder="farmer@example.com"
-                            className="pl-10"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="text-center space-y-4">
-                        <div className="flex justify-center">
-                          <Mail className="h-12 w-12 text-primary animate-pulse" />
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Click the link sent to <strong>{email}</strong> to sign in instantly.
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          You can close this tab.
-                        </p>
+                    {error && (
+                      <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200">
+                        {error}
                       </div>
                     )}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="login-email">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="login-email"
+                          type="email"
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="login-password">
+                        Password
+                      </label>
+                      <Input
+                        id="login-password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+                    <div className="text-right">
+                      <button type="button" onClick={() => setShowResetPassword(true)} className="text-xs text-primary hover:underline">
+                        Forgot Password?
+                      </button>
+                    </div>
                   </CardContent>
                   <CardFooter className="flex-col gap-4">
-                    <Button className="w-full" type="submit" disabled={isLoading || isGoogleLoading}>
+                    <Button className="w-full" type="submit" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -248,38 +349,10 @@ export function Auth() {
                         </>
                       ) : (
                         <>
-                          {linkSent ? "Sent!" : "Send Magic Link"} {!linkSent && <ArrowRight className="ml-2 h-4 w-4" />}
+                          Login <ArrowRight className="ml-2 h-4 w-4" />
                         </>
                       )}
                     </Button>
-                    {!linkSent && (
-                      <div className="relative w-full">
-                        <div className="absolute inset-0 flex items-center">
-                          <span className="w-full border-t" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-                        </div>
-                      </div>
-                    )}
-                    {!linkSent && (
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        type="button"
-                        onClick={handleGoogleSignIn}
-                        disabled={isLoading || isGoogleLoading}
-                      >
-                        {isGoogleLoading ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                            <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                          </svg>
-                        )}
-                        Sign in with Google
-                      </Button>
-                    )}
                   </CardFooter>
                 </form>
               </Card>
@@ -288,92 +361,119 @@ export function Auth() {
             <TabsContent value="signup">
               <Card className="border shadow-xl">
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-2xl font-bold text-center">{linkSent ? "Check your email" : t('auth.register')}</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-center">{t('auth.register')}</CardTitle>
                   <CardDescription className="text-center">
-                    {linkSent ? "We've sent you a login link." : "Start your journey towards smarter farming today"}
+                    Start your journey towards smarter farming today
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={handleSendOtp}>
+                <form onSubmit={handleSignup}>
                   <CardContent className="space-y-4">
-                    {!linkSent ? (
-                      <>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium leading-none" htmlFor="name">
-                            {t('auth.name')}
-                          </label>
-                          <div className="relative">
-                            <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              id="name"
-                              placeholder="Ram Singh"
-                              className="pl-10"
-                              required
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-                        </div>
-                        {/* Phone input removed for Strict Magic Link flow */}
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none" htmlFor="city">
-                              City
-                            </label>
-                            <Input
-                              id="city"
-                              placeholder="Bhopal"
-                              required
-                              value={city}
-                              onChange={(e) => setCity(e.target.value)}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none" htmlFor="state">
-                              State
-                            </label>
-                            <Input
-                              id="state"
-                              placeholder="Madhya Pradesh"
-                              required
-                              value={state}
-                              onChange={(e) => setState(e.target.value)}
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium leading-none" htmlFor="signup-email">
-                            Email Address
-                          </label>
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              id="signup-email"
-                              type="email"
-                              placeholder="farmer@example.com"
-                              className="pl-10"
-                              required
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="text-center space-y-4">
-                        <div className="flex justify-center">
-                          <Mail className="h-12 w-12 text-primary animate-pulse" />
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          Click the link sent to <strong>{email}</strong> to verify your account.
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          You can close this tab.
-                        </p>
+                    {error && (
+                      <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200">
+                        {error}
                       </div>
                     )}
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-email">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-password">
+                        Password
+                      </label>
+                      <Input
+                        id="signup-password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-name">
+                        {t('auth.name')}
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-name"
+                          placeholder="Ram Singh"
+                          className="pl-10"
+                          required
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium leading-none" htmlFor="signup-phone">
+                        Phone Number
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signup-phone"
+                          type="tel"
+                          placeholder="9876543210"
+                          className="pl-10"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium leading-none" htmlFor="city">
+                          City
+                        </label>
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="city"
+                            placeholder="Bhopal"
+                            className="pl-10"
+                            required
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium leading-none" htmlFor="state">
+                          State
+                        </label>
+                        <Input
+                          id="state"
+                          placeholder="Madhya Pradesh"
+                          required
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                        />
+                      </div>
+                    </div>
                   </CardContent>
                   <CardFooter className="flex-col gap-4">
-                    <Button className="w-full" type="submit" disabled={isLoading || isGoogleLoading}>
+                    <Button className="w-full" type="submit" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -381,38 +481,10 @@ export function Auth() {
                         </>
                       ) : (
                         <>
-                          {linkSent ? "Sent!" : "Sign Up"} {!linkSent && <ArrowRight className="ml-2 h-4 w-4" />}
+                          Sign Up <ArrowRight className="ml-2 h-4 w-4" />
                         </>
                       )}
                     </Button>
-                    {!linkSent && (
-                      <div className="relative w-full">
-                        <div className="absolute inset-0 flex items-center">
-                          <span className="w-full border-t" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-                        </div>
-                      </div>
-                    )}
-                    {!linkSent && (
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        type="button"
-                        onClick={handleGoogleSignIn}
-                        disabled={isLoading || isGoogleLoading}
-                      >
-                        {isGoogleLoading ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                            <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                          </svg>
-                        )}
-                        Sign in with Google
-                      </Button>
-                    )}
                   </CardFooter>
                 </form>
               </Card>
@@ -420,15 +492,7 @@ export function Auth() {
           </Tabs>
 
           <p className="text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
-            <a href="#" className="underline hover:text-primary">
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a href="#" className="underline hover:text-primary">
-              Privacy Policy
-            </a>
-            .
+            By using this demo app, you understand this is for testing purposes only.
           </p>
         </motion.div>
       </div>
