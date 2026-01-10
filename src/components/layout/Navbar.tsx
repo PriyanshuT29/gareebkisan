@@ -29,7 +29,7 @@ export function Navbar({ onMenuClick }: NavbarProps) {
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt={t('app.name')} className="h-16 w-16 rounded-lg object-contain" />
+            <img src="/logo.png" alt={t('app.name')} className="h-10 w-10 rounded-lg object-contain" />
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               {t('app.name')}
             </span>
