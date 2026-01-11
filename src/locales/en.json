@@ -434,6 +434,36 @@
       "placeholder": "Ask about your crop...",
       "thinking": "Thinking...",
       "welcome": "Namaste! I am your AI Crop Assistant. How can I help you today?"
+    },
+    "postHarvest": {
+      "title": "Soil Health Improvement Advisory",
+      "subtitle": "Prepare your land for the next season",
+      "badge": "Post-Harvest",
+      "description": "Your crop has been harvested. Don't let the land stay idle. Sowing a short-duration cover crop will restore soil nutrients, fix nitrogen naturally, and prepare the field for better yield in the next season.",
+      "recommendedCrops": "Recommended Cover Crops",
+      "days": "days",
+      "actionTitle": "Next Step",
+      "actionText": "We recommend sowing one of these crops before your next main crop season. This will improve soil health and increase your future profits.",
+      "crops": {
+        "dhaincha": {
+          "name": "Dhaincha (ढैंचा)",
+          "benefit1": "Adds nitrogen to soil naturally",
+          "benefit2": "Improves soil structure and organic matter",
+          "benefit3": "Ready in 30-40 days, quick turnaround"
+        },
+        "sunhemp": {
+          "name": "Sunhemp / Sanai (सनई)",
+          "benefit1": "Excellent nitrogen fixer",
+          "benefit2": "Suppresses weeds effectively",
+          "benefit3": "Deep roots break hard soil layers"
+        },
+        "moong": {
+          "name": "Green Gram / Moong (मूंग)",
+          "benefit1": "Dual benefit: Crop + Soil improvement",
+          "benefit2": "Adds nitrogen for next crop",
+          "benefit3": "Can be harvested and sold"
+        }
+      }
     }
   },
   "premium": {
@@ -498,38 +528,6 @@
       "point1": "Better decisions",
       "point2": "Higher profits",
       "point3": "Lower risks"
-    }
-  },
-  "cropAdvisory": {
-    "postHarvest": {
-      "title": "Soil Health Improvement Advisory",
-      "subtitle": "Prepare your land for the next season",
-      "badge": "Post-Harvest",
-      "description": "Your crop has been harvested. Don't let the land stay idle. Sowing a short-duration cover crop will restore soil nutrients, fix nitrogen naturally, and prepare the field for better yield in the next season.",
-      "recommendedCrops": "Recommended Cover Crops",
-      "days": "days",
-      "actionTitle": "Next Step",
-      "actionText": "We recommend sowing one of these crops before your next main crop season. This will improve soil health and increase your future profits.",
-      "crops": {
-        "dhaincha": {
-          "name": "Dhaincha (ढैंचा)",
-          "benefit1": "Adds nitrogen to soil naturally",
-          "benefit2": "Improves soil structure and organic matter",
-          "benefit3": "Ready in 30-40 days, quick turnaround"
-        },
-        "sunhemp": {
-          "name": "Sunhemp / Sanai (सनई)",
-          "benefit1": "Excellent nitrogen fixer",
-          "benefit2": "Suppresses weeds effectively",
-          "benefit3": "Deep roots break hard soil layers"
-        },
-        "moong": {
-          "name": "Green Gram / Moong (मूंग)",
-          "benefit1": "Dual benefit: Crop + Soil improvement",
-          "benefit2": "Adds nitrogen for next crop",
-          "benefit3": "Can be harvested and sold"
-        }
-      }
     }
   }
 }

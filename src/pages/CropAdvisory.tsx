@@ -710,7 +710,7 @@ export function CropAdvisory() {
                           </div>
                           <h5 className="font-bold text-gray-900 mb-1">{crop.name}</h5>
                           <div className="flex items-center gap-1 mb-3">
-                            <Clock className=\"h-3 w-3 text-gray-500\" />
+                            <Clock className="h-3 w-3 text-gray-500" />
                             <span className="text-xs text-gray-600 font-medium">{crop.duration}</span>
                           </div>
                           <ul className="space-y-1.5">
