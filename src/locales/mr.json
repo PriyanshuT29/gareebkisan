@@ -5,11 +5,15 @@
   },
   "nav": {
     "dashboard": "डॅशबोर्ड",
+    "cropAdvisory": "पिक सल्ला",
     "farmLog": "शेत नोंद",
     "marketplace": "बाजार",
     "community": "समुदाय",
     "schemes": "योजना",
     "weather": "हवामान इशारे",
+    "mandiPrices": "मंडी भाव",
+    "simulator": "सिम्युलेटर",
+    "premium": "Premium",
     "settings": "सेटिंग्ज",
     "profile": "प्रोफाइल",
     "logout": "लॉग आऊट"
@@ -43,6 +47,37 @@
     "role": "मी आहे",
     "farmer": "शेतकरी",
     "buyer": "खरेदीदार"
+  },
+  "onboarding": {
+    "step": "पायरी",
+    "of": "पैकी",
+    "complete": "पूर्ण",
+    "next": "पुढे",
+    "back": "मागे",
+    "skip": "आता वगळा",
+    "finish": "पूर्ण करा",
+    "saving": "जतन करत आहे...",
+    "locationTitle": "तुमचे स्थान",
+    "locationDesc": "तुमचे स्थान तपशील सामायिक करा",
+    "state": "राज्य",
+    "district": "जिल्हा",
+    "village": "गाव (पर्यायी)",
+    "selectState": "राज्य निवडा",
+    "cropTitle": "पीक माहिती",
+    "cropDesc": "तुम्ही कोणते पीक लावत आहात?",
+    "cropName": "पिकाचे नाव",
+    "selectCrop": "पीक निवडा",
+    "growthStage": "वाढीचा टप्पा",
+    "sowingDate": "पेरणीची तारीख (पर्यायी)",
+    "landTitle": "जमीन आणि सिंचन",
+    "landDesc": "शेती तपशील",
+    "landArea": "जमीन क्षेत्र (एकर मध्ये)",
+    "irrigationType": "सिंचनाचा प्रकार",
+    "marketTitle": "बाजार प्राधान्य",
+    "marketDesc": "तुमची पसंतीची मंडी",
+    "nearestMandi": "जवळची मंडी (पर्यायी)",
+    "farmingType": "शेतीचा प्रकार (पर्यायी)",
+    "helpText": "ही माहिती चांगल्या पीक सल्ला आणि मंडी किंमती प्रदान करण्यास मदत करेल"
   },
   "dashboard": {
     "welcome": "स्वागत आहे",
@@ -238,6 +273,102 @@
       "crops": "ट्रॅक केलेली पिके",
       "revenue": "उत्पन्न",
       "schemes": "प्रवेश केलेल्या योजना"
+    }
+  },
+  "cropAdvisory": {
+    "postHarvest": {
+      "title": "Soil Health Improvement Advisory",
+      "subtitle": "Prepare your land for the next season",
+      "badge": "Post-Harvest",
+      "description": "Your crop has been harvested. Don't let the land stay idle. Sowing a short-duration cover crop will restore soil nutrients, fix nitrogen naturally, and prepare the field for better yield in the next season.",
+      "recommendedCrops": "Recommended Cover Crops",
+      "days": "days",
+      "actionTitle": "Next Step",
+      "actionText": "We recommend sowing one of these crops before your next main crop season. This will improve soil health and increase your future profits.",
+      "crops": {
+        "dhaincha": {
+          "name": "Dhaincha",
+          "benefit1": "Adds nitrogen to soil naturally",
+          "benefit2": "Improves soil structure and organic matter",
+          "benefit3": "Ready in 30-40 days, quick turnaround"
+        },
+        "sunhemp": {
+          "name": "Sunhemp / Sanai",
+          "benefit1": "Excellent nitrogen fixer",
+          "benefit2": "Suppresses weeds effectively",
+          "benefit3": "Deep roots break hard soil layers"
+        },
+        "moong": {
+          "name": "Green Gram / Moong",
+          "benefit1": "Dual benefit: Crop + Soil improvement",
+          "benefit2": "Adds nitrogen for next crop",
+          "benefit3": "Can be harvested and sold"
+        }
+      }
+    }
+  },
+  "premium": {
+    "badge": "Premium",
+    "hero": {
+      "title": "Maximize Your Farm Profits",
+      "subtitle": "Get advanced insights, expert guidance, and smart tools to make better farming decisions"
+    },
+    "features": {
+      "title": "What You Get with Premium",
+      "subtitle": "Powerful features designed to increase your income and reduce risks"
+    },
+    "mandiInsights": {
+      "title": "Advanced Mandi Price Insights",
+      "description": "Know when and where to sell for maximum profit",
+      "benefit1": "See 15 & 30 day future price trends",
+      "benefit2": "Find best mandi and best selling time",
+      "benefit3": "Know price drop or rise risks in advance"
+    },
+    "profitOptimization": {
+      "title": "Profit Optimization Insights",
+      "description": "Understand what affects your earnings",
+      "benefit1": "Detailed breakdown of your Profit Score",
+      "benefit2": "Clear tips on how to increase profits"
+    },
+    "whatIfSimulator": {
+      "title": "What-If Simulator",
+      "description": "Test your selling decisions before taking action",
+      "benefit1": "Compare 'sell now' vs 'sell later' profits",
+      "benefit2": "See instant profit/loss estimates",
+      "benefit3": "Make confident decisions with data"
+    },
+    "weatherAnalysis": {
+      "title": "Deep Weather Risk Analysis",
+      "description": "Protect your crops from weather damage",
+      "benefit1": "Crop-specific weather impact predictions",
+      "benefit2": "Early warnings before damage occurs",
+      "benefit3": "Priority actions based on risk level"
+    },
+    "expertAdvisory": {
+      "title": "Expert Crop Advisory",
+      "description": "Get stage-by-stage expert farming guidance",
+      "benefit1": "Micro guidance for each crop growth stage",
+      "benefit2": "Early stress and pest risk detection",
+      "benefit3": "Preventive recommendations to avoid losses"
+    },
+    "reports": {
+      "title": "Reports & Records",
+      "description": "Professional reports for banks, insurance, and schemes",
+      "benefit1": "Download crop, profit, and risk reports",
+      "benefit2": "Useful for FPO, bank loans, and government schemes"
+    },
+    "voiceFeatures": {
+      "title": "Voice & Priority Features",
+      "description": "Get information faster and easier",
+      "benefit1": "Listen to detailed advisory via voice",
+      "benefit2": "Faster alerts with priority notifications"
+    },
+    "cta": {
+      "title": "Ready to Grow Your Profits?",
+      "description": "Join thousands of farmers who are earning more with Premium features",
+      "point1": "Better decisions",
+      "point2": "Higher profits",
+      "point3": "Lower risks"
     }
   }
 }

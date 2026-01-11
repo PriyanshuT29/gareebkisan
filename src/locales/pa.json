@@ -5,11 +5,15 @@
   },
   "nav": {
     "dashboard": "ਡੈਸ਼ਬੋਰਡ",
+    "cropAdvisory": "ਫਸਲ ਸਲਾਹ",
     "farmLog": "ਫਾਰਮ ਲੌਗ",
     "marketplace": "ਬਾਜ਼ਾਰ",
     "community": "ਭਾਈਚਾਰਾ",
     "schemes": "ਯੋਜਨਾਵਾਂ",
     "weather": "ਮੌਸਮ ਅਲਰਟ",
+    "mandiPrices": "ਮੰਡੀ ਭਾਅ",
+    "simulator": "ਸਿਮੂਲੇਟਰ",
+    "premium": "ਪ੍ਰੀਮੀਅਮ",
     "settings": "ਸੈਟਿੰਗਾਂ",
     "profile": "ਪ੍ਰੋਫਾਈਲ",
     "logout": "ਲੌਗ ਆਊਟ"
@@ -43,6 +47,37 @@
     "role": "ਮੈਂ ਹਾਂ",
     "farmer": "ਕਿਸਾਨ",
     "buyer": "ਖਰੀਦਦਾਰ"
+  },
+  "onboarding": {
+    "step": "ਕਦਮ",
+    "of": "ਦੇ",
+    "complete": "ਪੂਰਾ",
+    "next": "ਅੱਗੇ",
+    "back": "ਪਿੱਛੇ",
+    "skip": "ਹੁਣ ਛੱਡੋ",
+    "finish": "ਮੁਕੰਮਲ ਕਰੋ",
+    "saving": "ਸੁਰੱਖਿਅਤ ਹੋ ਰਿਹਾ ਹੈ...",
+    "locationTitle": "ਤੁਹਾਡੀ ਸਥਿਤੀ",
+    "locationDesc": "ਆਪਣੀ ਸਥਿਤੀ ਸਾਂਝੀ ਕਰੋ",
+    "state": "ਰਾਜ",
+    "district": "ਜ਼ਿਲ੍ਹਾ",
+    "village": "ਪਿੰਡ (ਵਿਕਲਪਿਕ)",
+    "selectState": "ਰਾਜ ਚੁਣੋ",
+    "cropTitle": "ਫਸਲ ਜਾਣਕਾਰੀ",
+    "cropDesc": "ਤੁਸੀਂ ਕਿਹੜੀ ਫਸਲ ਉਗਾ ਰਹੇ ਹੋ?",
+    "cropName": "ਫਸਲ ਦਾ ਨਾਮ",
+    "selectCrop": "ਫਸਲ ਚੁਣੋ",
+    "growthStage": "ਵਿਕਾਸ ਪੜਾਅ",
+    "sowingDate": "ਬੀਜਾਈ ਦੀ ਤਾਰੀਖ (ਵਿਕਲਪਿਕ)",
+    "landTitle": "ਜ਼ਮੀਨ ਅਤੇ ਸਿੰਚਾਈ",
+    "landDesc": "ਖੇਤੀ ਦੇ ਵੇਰਵੇ",
+    "landArea": "ਜ਼ਮੀਨ ਖੇਤਰ (ਏਕੜ ਵਿੱਚ)",
+    "irrigationType": "ਸਿੰਚਾਈ ਦੀ ਕਿਸਮ",
+    "marketTitle": "ਬਾਜ਼ਾਰ ਤਰਜੀਹ",
+    "marketDesc": "ਤੁਹਾਡੀ ਪਸੰਦੀਦਾ ਮੰਡੀ",
+    "nearestMandi": "ਨਜ਼ਦੀਕੀ ਮੰਡੀ (ਵਿਕਲਪਿਕ)",
+    "farmingType": "ਖੇਤੀ ਦੀ ਕਿਸਮ (ਵਿਕਲਪਿਕ)",
+    "helpText": "ਇਹ ਜਾਣਕਾਰੀ ਬਿਹਤਰ ਫਸਲ ਸਲਾਹ ਅਤੇ ਮੰਡੀ ਕੀਮਤਾਂ ਪ੍ਰਦਾਨ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰੇਗੀ"
   },
   "dashboard": {
     "welcome": "ਸਵਾਗਤ ਹੈ",
@@ -238,6 +273,102 @@
       "crops": "ਟ੍ਰੈਕ ਕੀਤੀਆਂ ਫਸਲਾਂ",
       "revenue": "ਪੈਦਾ ਕੀਤੀ ਆਮਦਨ",
       "schemes": "ਐਕਸੈਸ ਕੀਤੀਆਂ ਯੋਜਨਾਵਾਂ"
+    }
+  },
+  "premium": {
+    "badge": "ਪ੍ਰੀਮੀਅਮ",
+    "hero": {
+      "title": "ਆਪਣੀ ਖੇਤੀ ਦਾ ਮੁਨਾਫਾ ਵਧਾਓ",
+      "subtitle": "ਉੱਨਤ ਜਾਣਕਾਰੀ, ਮਾਹਰ ਮਾਰਗਦਰਸ਼ਨ ਅਤੇ ਸਮਾਰਟ ਟੂਲਸ ਨਾਲ ਬਿਹਤਰ ਫੈਸਲੇ ਲਓ"
+    },
+    "features": {
+      "title": "Premium ਵਿੱਚ ਕੀ ਮਿਲਦਾ ਹੈ",
+      "subtitle": "ਤੁਹਾਡੀ ਆਮਦਨ ਵਧਾਉਣ ਅਤੇ ਜੋਖਮ ਘਟਾਉਣ ਲਈ ਸ਼ਕਤੀਸ਼ਾਲੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ"
+    },
+    "mandiInsights": {
+      "title": "ਉੱਨਤ ਮੰਡੀ ਭਾਅ ਜਾਣਕਾਰੀ",
+      "description": "ਜਾਣੋ ਕਦੋਂ ਅਤੇ ਕਿੱਥੇ ਵੇਚਣਾ ਹੈ ਵੱਧ ਮੁਨਾਫੇ ਲਈ",
+      "benefit1": "15 ਅਤੇ 30 ਦਿਨ ਦੇ ਭਵਿੱਖ ਭਾਅ ਦੇਖੋ",
+      "benefit2": "ਸਭ ਤੋਂ ਵਧੀਆ ਮੰਡੀ ਅਤੇ ਵੇਚਣ ਦਾ ਸਹੀ ਸਮਾਂ ਜਾਣੋ",
+      "benefit3": "ਭਾਅ ਡਿੱਗਣ ਜਾਂ ਵਧਣ ਦਾ ਜੋਖਮ ਪਹਿਲਾਂ ਹੀ ਜਾਣੋ"
+    },
+    "profitOptimization": {
+      "title": "ਮੁਨਾਫਾ ਵਧਾਉਣ ਦੀ ਜਾਣਕਾਰੀ",
+      "description": "ਸਮਝੋ ਕੀ ਤੁਹਾਡੀ ਕਮਾਈ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਕਰਦਾ ਹੈ",
+      "benefit1": "ਤੁਹਾਡੇ Profit Score ਦਾ ਵਿਸਤ੍ਰਿਤ ਵੇਰਵਾ",
+      "benefit2": "ਮੁਨਾਫਾ ਵਧਾਉਣ ਦੇ ਸਪੱਸ਼ਟ ਉਪਾਅ"
+    },
+    "whatIfSimulator": {
+      "title": "What-If ਸਿਮੂਲੇਟਰ",
+      "description": "ਫੈਸਲਾ ਲੈਣ ਤੋਂ ਪਹਿਲਾਂ ਨਤੀਜੇ ਦੇਖੋ",
+      "benefit1": "'ਹੁਣੇ ਵੇਚੋ' ਬਨਾਮ 'ਬਾਅਦ ਵਿੱਚ ਵੇਚੋ' ਦੀ ਤੁਲਨਾ ਕਰੋ",
+      "benefit2": "ਤੁਰੰਤ ਲਾਭ/ਹਾਨੀ ਦਾ ਅੰਦਾਜ਼ਾ ਦੇਖੋ",
+      "benefit3": "ਡੇਟਾ ਨਾਲ ਵਿਸ਼ਵਾਸ ਨਾਲ ਫੈਸਲਾ ਲਓ"
+    },
+    "weatherAnalysis": {
+      "title": "ਡੂੰਘਾ ਮੌਸਮ ਜੋਖਮ ਵਿਸ਼ਲੇਸ਼ਣ",
+      "description": "ਆਪਣੀ ਫਸਲ ਨੂੰ ਮੌਸਮ ਦੇ ਨੁਕਸਾਨ ਤੋਂ ਬਚਾਓ",
+      "benefit1": "ਫਸਲ-ਵਿਸ਼ੇਸ਼ ਮੌਸਮ ਪ੍ਰਭਾਵ ਦੀ ਭਵਿੱਖਬਾਣੀ",
+      "benefit2": "ਨੁਕਸਾਨ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਚੇਤਾਵਨੀ",
+      "benefit3": "ਜੋਖਮ ਪੱਧਰ ਦੇ ਆਧਾਰ 'ਤੇ ਤਰਜੀਹੀ ਕਾਰਵਾਈ"
+    },
+    "expertAdvisory": {
+      "title": "ਮਾਹਰ ਫਸਲ ਸਲਾਹ",
+      "description": "ਹਰ ਪੜਾਅ ਲਈ ਮਾਹਰ ਖੇਤੀ ਮਾਰਗਦਰਸ਼ਨ",
+      "benefit1": "ਹਰ ਫਸਲ ਪੜਾਅ ਲਈ ਸੂਖਮ ਮਾਰਗਦਰਸ਼ਨ",
+      "benefit2": "ਤਣਾਅ ਅਤੇ ਕੀੜੇ ਜੋਖਮ ਦੀ ਸ਼ੁਰੂਆਤੀ ਪਛਾਣ",
+      "benefit3": "ਨੁਕਸਾਨ ਤੋਂ ਬਚਣ ਲਈ ਰੋਕਥਾਮ ਸੁਝਾਅ"
+    },
+    "reports": {
+      "title": "ਰਿਪੋਰਟਾਂ ਅਤੇ ਰਿਕਾਰਡ",
+      "description": "ਬੈਂਕ, ਬੀਮਾ ਅਤੇ ਯੋਜਨਾਵਾਂ ਲਈ ਪੇਸ਼ੇਵਰ ਰਿਪੋਰਟਾਂ",
+      "benefit1": "ਫਸਲ, ਲਾਭ ਅਤੇ ਜੋਖਮ ਰਿਪੋਰਟਾਂ ਡਾਊਨਲੋਡ ਕਰੋ",
+      "benefit2": "FPO, ਬੈਂਕ ਲੋਨ ਅਤੇ ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ ਲਈ ਉਪਯੋਗੀ"
+    },
+    "voiceFeatures": {
+      "title": "ਵੌਇਸ ਅਤੇ ਤਰਜੀਹੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ",
+      "description": "ਤੇਜ਼ ਅਤੇ ਆਸਾਨ ਤਰੀਕੇ ਨਾਲ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰੋ",
+      "benefit1": "ਵਿਸਤ੍ਰਿਤ ਸਲਾਹ ਆਵਾਜ਼ ਵਿੱਚ ਸੁਣੋ",
+      "benefit2": "ਤਰਜੀਹੀ ਸੂਚਨਾਵਾਂ ਨਾਲ ਤੇਜ਼ ਅਲਰਟ"
+    },
+    "cta": {
+      "title": "ਆਪਣਾ ਮੁਨਾਫਾ ਵਧਾਉਣ ਲਈ ਤਿਆਰ?",
+      "description": "ਹਜ਼ਾਰਾਂ ਕਿਸਾਨਾਂ ਨਾਲ ਜੁੜੋ ਜੋ Premium ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨਾਲ ਜ਼ਿਆਦਾ ਕਮਾ ਰਹੇ ਹਨ",
+      "point1": "ਬਿਹਤਰ ਫੈਸਲੇ",
+      "point2": "ਜ਼ਿਆਦਾ ਮੁਨਾਫਾ",
+      "point3": "ਘੱਟ ਜੋਖਮ"
+    }
+  },
+  "cropAdvisory": {
+    "postHarvest": {
+      "title": "Soil Health Improvement Advisory",
+      "subtitle": "Prepare your land for the next season",
+      "badge": "Post-Harvest",
+      "description": "Your crop has been harvested. Don't let the land stay idle. Sowing a short-duration cover crop will restore soil nutrients, fix nitrogen naturally, and prepare the field for better yield in the next season.",
+      "recommendedCrops": "Recommended Cover Crops",
+      "days": "days",
+      "actionTitle": "Next Step",
+      "actionText": "We recommend sowing one of these crops before your next main crop season. This will improve soil health and increase your future profits.",
+      "crops": {
+        "dhaincha": {
+          "name": "Dhaincha (ઢૈંਚા)",
+          "benefit1": "Adds nitrogen to soil naturally",
+          "benefit2": "Improves soil structure and organic matter",
+          "benefit3": "Ready in 30-40 days, quick turnaround"
+        },
+        "sunhemp": {
+          "name": "Sunhemp / Sanai (સનૈ)",
+          "benefit1": "Excellent nitrogen fixer",
+          "benefit2": "Suppresses weeds effectively",
+          "benefit3": "Deep roots break hard soil layers"
+        },
+        "moong": {
+          "name": "Green Gram / Moong (મૂંગ)",
+          "benefit1": "Dual benefit: Crop + Soil improvement",
+          "benefit2": "Adds nitrogen for next crop",
+          "benefit3": "Can be harvested and sold"
+        }
+      }
     }
   }
 }

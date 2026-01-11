@@ -24,7 +24,10 @@ import {
   BookmarkPlus,
   CloudRain,
   TrendingUp,
-  IndianRupee
+  IndianRupee,
+  Sprout,
+  Leaf,
+  Sparkles
 } from "lucide-react"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
@@ -305,6 +308,49 @@ export function CropAdvisory() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   
   const { t, i18n } = useTranslation()
+  
+  // Detect post-harvest / empty land condition
+  const isPostHarvest = selectedStage === "Maturity" || selectedStage === "Harvested"
+  
+  // Cover crop recommendations based on season and region
+  const coverCrops = [
+    {
+      name: t('cropAdvisory.postHarvest.crops.dhaincha.name'),
+      duration: "30-40 " + t('cropAdvisory.postHarvest.days'),
+      benefits: [
+        t('cropAdvisory.postHarvest.crops.dhaincha.benefit1'),
+        t('cropAdvisory.postHarvest.crops.dhaincha.benefit2'),
+        t('cropAdvisory.postHarvest.crops.dhaincha.benefit3')
+      ],
+      icon: Sprout,
+      color: "text-green-600",
+      bgColor: "bg-green-50"
+    },
+    {
+      name: t('cropAdvisory.postHarvest.crops.sunhemp.name'),
+      duration: "35-45 " + t('cropAdvisory.postHarvest.days'),
+      benefits: [
+        t('cropAdvisory.postHarvest.crops.sunhemp.benefit1'),
+        t('cropAdvisory.postHarvest.crops.sunhemp.benefit2'),
+        t('cropAdvisory.postHarvest.crops.sunhemp.benefit3')
+      ],
+      icon: Leaf,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50"
+    },
+    {
+      name: t('cropAdvisory.postHarvest.crops.moong.name'),
+      duration: "60-65 " + t('cropAdvisory.postHarvest.days'),
+      benefits: [
+        t('cropAdvisory.postHarvest.crops.moong.benefit1'),
+        t('cropAdvisory.postHarvest.crops.moong.benefit2'),
+        t('cropAdvisory.postHarvest.crops.moong.benefit3')
+      ],
+      icon: Sparkles,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50"
+    }
+  ]
 
   // Initialize Gemini API
   const genAI = new GoogleGenerativeAI("AIzaSyACMEIJf8h-KI7jo3lZcr2oR3BQVzAnVgE")
@@ -608,9 +654,99 @@ export function CropAdvisory() {
           </Card>
         </Link>
       </motion.div>
+      
+      {/* Post-Harvest Soil Health Advisory */}
+      {isPostHarvest && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card className="border-2 border-green-300 bg-gradient-to-br from-green-50 via-emerald-50 to-lime-50">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-green-600 rounded-xl">
+                  <Leaf className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <CardTitle className="text-xl text-green-900">
+                    {t('cropAdvisory.postHarvest.title')}
+                  </CardTitle>
+                  <p className="text-sm text-green-700 mt-1">
+                    {t('cropAdvisory.postHarvest.subtitle')}
+                  </p>
+                </div>
+                <Badge className="bg-green-600 hover:bg-green-600 text-white">
+                  {t('cropAdvisory.postHarvest.badge')}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-white/60 rounded-lg p-4 border border-green-200">
+                <div className="flex items-start gap-2 mb-3">
+                  <AlertCircle className="h-5 w-5 text-green-600 mt-0.5 shrink-0" />
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    {t('cropAdvisory.postHarvest.description')}
+                  </p>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm text-gray-900 mb-3">
+                  {t('cropAdvisory.postHarvest.recommendedCrops')}
+                </h4>
+                <div className="grid gap-3 md:grid-cols-3">
+                  {coverCrops.map((crop, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 + index * 0.1 }}
+                    >
+                      <Card className="border-2 hover:border-green-400 hover:shadow-lg transition-all cursor-pointer h-full">
+                        <CardContent className="p-4">
+                          <div className={`p-2 ${crop.bgColor} rounded-lg w-fit mb-3`}>
+                            <crop.icon className={`h-5 w-5 ${crop.color}`} />
+                          </div>
+                          <h5 className="font-bold text-gray-900 mb-1">{crop.name}</h5>
+                          <div className="flex items-center gap-1 mb-3">
+                            <Clock className=\"h-3 w-3 text-gray-500\" />
+                            <span className="text-xs text-gray-600 font-medium">{crop.duration}</span>
+                          </div>
+                          <ul className="space-y-1.5">
+                            {crop.benefits.map((benefit, idx) => (
+                              <li key={idx} className="flex items-start gap-1.5 text-xs text-gray-700">
+                                <Check className="h-3 w-3 text-green-600 mt-0.5 shrink-0" />
+                                <span className="leading-relaxed">{benefit}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg p-4 border border-green-300">
+                <div className="flex items-center gap-2 mb-2">
+                  <Lightbulb className="h-5 w-5 text-green-700" />
+                  <h4 className="font-semibold text-sm text-green-900">
+                    {t('cropAdvisory.postHarvest.actionTitle')}
+                  </h4>
+                </div>
+                <p className="text-sm text-green-800 leading-relaxed">
+                  {t('cropAdvisory.postHarvest.actionText')}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
 
       {/* Advisory Cards Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {!isPostHarvest && (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -684,6 +820,7 @@ export function CropAdvisory() {
           />
         </motion.div>
       </div>
+      )}
 
       {/* Floating Chatbot */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">

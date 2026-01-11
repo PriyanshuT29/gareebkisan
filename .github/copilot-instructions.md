@@ -11,7 +11,8 @@
 - **Routing**: React Router v7 with nested routes under `/dashboard` via `DashboardLayout`
 - **UI Components**: shadcn/ui pattern (Radix UI + CVA) in `src/components/ui/`
 - **Layout**: Fixed navbar + collapsible sidebar (responsive), `DashboardLayout` wraps all authenticated pages
-- **Data**: Currently uses mock data from `src/data/mockData.ts` - planned migration to API calls
+- **Data**: Hybrid approach - Mock data in `src/data/mockData.ts` for most features, real API integration for Weather and Mandi Prices
+- **Pages**: 13 total - Landing, Auth, Onboarding (not routed), Dashboard, CropAdvisory, WeatherAlerts, MandiPrices, Simulator, Community, Marketplace, Schemes, FarmLog, Settings
 
 ### Backend (`server/`)
 - **Tech**: Node.js + Express + TypeScript, MongoDB + Mongoose
@@ -21,9 +22,17 @@
 
 ### Key Integration Points
 - **Weather**: OpenWeather API integration in `src/services/weatherService.ts` (API key embedded)
-- **Mandi Prices**: Government of India API in `src/services/mandiService.ts` (API key: 579b464db66ec23bdd00000103b61ae65770414643985f03e5f9bbeb)
-- **AI/ML**: Google Gemini AI (`@google/generative-ai`) for crop advisory in `src/pages/CropAdvisory.tsx` (uses model: `gemini-1.5-flash-latest`, API key: AIzaSyACMEIJf8h-KI7jo3lZcr2oR3BQVzAnVgE)
-- **Database (Alternative)**: Supabase client configured in `src/lib/supabase.ts` (requires env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) - currently not actively used
+- **Mandi Prices**: Government of India API in `src/services/mandiService.ts` with Supabase caching (12-hour TTL)
+  - API key: `579b464db66ec23bdd00000103b61ae65770414643985f03e5f9bbeb`
+  - Smart caching: Queries Supabase first, falls back to API, upserts to cache
+  - See `MANDI_IMPLEMENTATION.md` for detailed flow and `database/alter_mandi_prices_table.sql` for schema
+- **AI/ML**: Google Gemini AI (`@google/generative-ai`) for crop advisory in `src/pages/CropAdvisory.tsx`
+  - Model: `gemini-1.5-flash-latest`
+  - API key: `AIzaSyACMEIJf8h-KI7jo3lZcr2oR3BQVzAnVgE`
+- **Database**: 
+  - MongoDB (primary) - Backend models in `server/src/models/`
+  - Supabase (secondary) - Configured in `src/lib/supabase.ts`, currently used for Mandi price caching
+  - SQL migrations in `database/` directory (e.g., `alter_mandi_prices_table.sql`)
 - **i18n**: i18next with 10 languages, auto-detection, localStorage persistence
 - **Frontend-Backend**: CORS configured for `http://localhost:5173` (frontend) to `http://localhost:5000` (backend)
 
@@ -44,8 +53,11 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 ### Environment Setup
 - **Frontend**: Vite env vars use `VITE_` prefix (e.g., `VITE_SUPABASE_URL`)
   - Vite config at root (`vite.config.ts`) - **no path aliases configured**, use relative imports
-  - Optional: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (for Supabase integration)
-  - Currently API keys hardcoded in service files (weatherService.ts, CropAdvisory.tsx) - **should be moved to env**
+  - Create `.env` at project root with:
+    - `VITE_SUPABASE_URL` - Supabase project URL
+    - `VITE_SUPABASE_ANON_KEY` - Supabase anonymous key (for Mandi price caching)
+    - `VITE_MANDI_API_KEY` - Government of India API key (optional, has fallback in mandiService.ts)
+  - **Note**: Weather and Gemini AI keys currently hardcoded in service files - should be moved to env vars
 - **Backend**: Copy `server/.env.example` to `server/.env` and configure:
   - `MONGODB_URI`: MongoDB connection (local or Atlas)
   - `JWT_SECRET` and `JWT_REFRESH_SECRET`: Generate secure random strings
@@ -53,11 +65,14 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
   - `NODE_ENV`: `development` or `production` (affects logging and error responses)
   - Optional: `CLOUDINARY_*` for image uploads, `WEATHER_API_KEY`, `MANDI_API_KEY`
   - Rate limiting: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX_REQUESTS`
+- **Important**: The `.env.example` at project root is actually for the SERVER (legacy location) - use `server/.env.example` instead
 
 ### Database
 - MongoDB connection in `server/src/config/database.ts`
 - Auto-creates collections on first document insert
 - Models define schema validation and indexes
+- Supabase for mandi price caching - execute SQL migrations from `database/` directory via Supabase SQL Editor
+  - Example: `database/alter_mandi_prices_table.sql` adds columns, indexes, unique constraints for mandi data
 
 ## Project-Specific Conventions
 
@@ -65,10 +80,12 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 
 1. **Component Styling**: Always use the `cn()` utility from `src/lib/utils.ts` for className merging:
    ```tsx
-   import { cn } from "@/lib/utils"
+   import { cn } from "../../lib/utils"  // Use relative imports (no path aliases)
    
    <div className={cn("base-classes", conditionalClass && "conditional", className)} />
    ```
+   - **CRITICAL**: TypeScript does NOT have path aliases configured (`@/` imports will fail)
+   - Always use relative imports: `../../lib/utils`, `../components/ui/button`
 
 2. **UI Components (shadcn/ui pattern)**:
    - Located in `src/components/ui/`
@@ -77,6 +94,7 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
    - Example: `Badge`, `Button`, `Card` components
    - Always forward refs for compatibility with Radix UI primitives
    - Component structure: define variants with CVA, extend props with `VariantProps`, use `cn()` in render
+   - Example import: `import { cn } from "../../lib/utils"` (two levels up from `src/components/ui/`)
 
 3. **Internationalization**:
    - Use `useTranslation()` hook in components:
@@ -167,6 +185,9 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 - **`server/src/middleware/auth.ts`**: JWT authentication logic
 - **`tailwind.config.js`**: Theme customization (colors, spacing)
 - **`I18N_README.md`**: Complete i18n usage guide
+- **`MANDI_IMPLEMENTATION.md`**: Detailed Mandi API integration with Supabase caching
+- **`MANDI_QUICKSTART.md`**: Quick start guide for Mandi price feature
+- **`database/alter_mandi_prices_table.sql`**: Supabase schema migration for Mandi prices
 
 ## Known Gotchas
 
@@ -174,9 +195,11 @@ npm run dev  # Runs on http://localhost:5000 (nodemon with TypeScript)
 2. **API Keys Hardcoded**: Weather API key in `src/services/weatherService.ts` and Gemini AI key in `src/pages/CropAdvisory.tsx` - **should be moved to environment variables**.
 3. **MongoDB Connection**: Backend will exit with code 1 if MongoDB connection fails on startup.
 4. **Language Persistence**: Language preference stored in `localStorage`, ensure to update on language change.
-5. **Path Aliases**: Not configured in Vite. Always use relative imports (`../../lib/utils`).
+5. **Path Aliases**: **CRITICAL** - TypeScript path aliases (`@/`) are NOT configured. Always use relative imports (`../../lib/utils`). The example in pattern #1 showing `@/lib/utils` is WRONG for this codebase.
 6. **Dual Package Names**: Project referred to as both "KrishiBandhu" and "Gareeb Kisan" - maintain consistency in new code.
 7. **Supabase Setup**: Client configured but not actively used - requires `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` env vars if needed.
+8. **Import Statements**: Examine existing files for correct relative import patterns before creating new components.
+9. **Environment Files**: The `.env.example` at project root is actually for the SERVER (legacy location) - use `server/.env.example` for backend env setup. Frontend env vars go in root `.env` with `VITE_` prefix.
 
 ## Testing & Build
 

@@ -12,6 +12,7 @@ import { Schemes } from "./pages/Schemes"
 import { FarmLog } from "./pages/FarmLog"
 import { Settings } from "./pages/Settings"
 import { Auth } from "./pages/Auth"
+import { Premium } from "./pages/Premium"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="schemes" element={<Schemes />} />
           <Route path="farm-log" element={<FarmLog />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="premium" element={<Premium />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

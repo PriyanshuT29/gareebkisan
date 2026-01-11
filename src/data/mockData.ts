@@ -186,7 +186,7 @@ export const crops = ["Wheat", "Rice", "Cotton", "Sugarcane", "Maize", "Pulses"]
 
 export const mandis = ["Bhopal Mandi", "Indore Mandi", "Jabalpur Mandi", "Gwalior Mandi"]
 
-export const growthStages = ["Sowing", "Germination", "Tillering", "Flowering", "Grain Filling", "Maturity"]
+export const growthStages = ["Sowing", "Germination", "Tillering", "Flowering", "Grain Filling", "Maturity", "Harvested"]
 
 export interface CommunityPost {
   id: string

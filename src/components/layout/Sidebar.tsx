@@ -13,6 +13,7 @@ import {
   FileText,
   ClipboardList,
   LogOut,
+  Crown,
 } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Button } from "../ui/button"
@@ -39,6 +40,7 @@ export function Sidebar({ isMobileOpen = false, onClose }: SidebarProps) {
     { icon: ShoppingBag, label: t('nav.marketplace'), path: "/dashboard/marketplace" },
     { icon: FileText, label: t('nav.schemes'), path: "/dashboard/schemes" },
     { icon: ClipboardList, label: t('nav.farmLog'), path: "/dashboard/farm-log" },
+    { icon: Crown, label: t('nav.premium'), path: "/dashboard/premium" },
     { icon: Settings, label: t('nav.settings'), path: "/dashboard/settings" },
   ]
 
